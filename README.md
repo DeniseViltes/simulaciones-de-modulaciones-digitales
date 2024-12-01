@@ -1,2 +1,2 @@
-# simulaciones-de-modulaciones-digitales
+# Simulacione de Modulaciones Digitales
 Trabajo Práctico de Simulaciones - Taller de Comunicaciones Digitales 
