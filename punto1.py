@@ -56,10 +56,34 @@ def plot_qam(d, M):
 
     # Normalizar la constelación
     symbols = normalizar_constelacion(symbols)
-
+    size = int(np.sqrt(M))  # Número de filas y columnas en la cuadrícula
+    d_norm = symbols[0]-symbols[1]
     # Graficar
     plt.figure(figsize=(6, 6))
-    plt.scatter(symbols.real, symbols.imag, c='plum', label='Símbolos')
+    for i in range(1, size):
+        plt.axhline(i * d_norm - (size / 2) * d_norm, color='crimson', linestyle='--', lw=1)
+        plt.axvline(i * d_norm - (size / 2) * d_norm, color='crimson', linestyle='--', lw=1)
+
+    for i in range(size - 1):
+        for j in range(size - 1):
+            # Coordenadas de las esquinas opuestas de la celda (i, j)
+            x1 = symbols[i + j * size].real
+            y1 = symbols[i + j * size].imag
+            x2 = symbols[(i + 1) + (j + 1) * size].real
+            y2 = symbols[(i + 1) + (j + 1) * size].imag
+
+            # Dibujar la primera diagonal (de la esquina inferior izquierda a la superior derecha)
+            plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
+
+            # Segunda diagonal (de la esquina inferior derecha a la superior izquierda)
+            x1 = symbols[(i + 1) + j * size].real
+            y1 = symbols[(i + 1) + j * size].imag
+            x2 = symbols[i + (j + 1) * size].real
+            y2 = symbols[i + (j + 1) * size].imag
+
+            plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
+
+    plt.scatter(symbols.real, symbols.imag, c='plum')
     plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
     plt.axvline(0, color='k', linewidth=0.8, linestyle='--')
     plt.title(f'Constelación QAM (M={M})')
@@ -130,7 +154,7 @@ def plot_2fsk(d):
 M =16  # Cantidad de símbolos
 d = 2  # Distancia mínima entre símbolos
 
-plot_ask(d, M)
+# plot_ask(d, M)
 plot_qam(d, M)
-plot_psk(d, M)
-plot_2fsk(d)
+# plot_psk(d, M)
+# plot_2fsk(d)
