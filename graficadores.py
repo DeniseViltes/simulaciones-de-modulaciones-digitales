@@ -5,14 +5,14 @@ def graficar_psk(ang_umbrales, psk_gray_map):
     # Crear figura
     plt.figure(figsize=(8, 8))
     ax = plt.gca()
-    symbols = psk_gray_map.values()
+
     # Dibujar círculo unitario
     circle = plt.Circle((0, 0), 1, color='lightgray', fill=False, linestyle='--', linewidth=1)
     ax.add_artist(circle)
 
     # Graficar símbolos PSK
-    for sym, gray in psk_gray_map.items():
-        plt.plot(sym.real, sym.imag, 'o', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
+    for gray,sym in psk_gray_map.items():
+        plt.plot(sym.real, sym.imag, 'o',color = 'crimson', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
         plt.text(sym.real * 1.1, sym.imag * 1.1, f'{format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}',
                  color='blue', fontsize=10, ha='center')
 

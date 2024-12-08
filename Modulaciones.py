@@ -1,6 +1,16 @@
 from  graficadores import *
 
 
+def binario_a_decimal(arr):
+    # Aseguramos que el array esté en formato de tipo int
+    arr = np.array(arr, dtype=int)
+    suma = 0
+    j = 0
+    for i in arr[::-1]:
+        suma += i*2**j
+        j += 1
+    return suma
+
 def normalizar_constelacion(sim):
 
     sim = np.array(sim, dtype=complex)
@@ -40,7 +50,8 @@ def psk(d, M):
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]
     gray_labels = [binary_to_gray(b) for b in binary_labels]
-    gray_map = dict(zip(symbols, gray_labels))
+    print(gray_labels)
+    gray_map = dict(zip(gray_labels,symbols))
 
     return gray_map,ang_umbrales
 
@@ -52,14 +63,14 @@ def fsk(d, M):
 
 
 
-d=2
-M = 16
-#symbols, umbrales, pam_gray_map = pam(d, M)
-umbrales, psk_gray_map = psk(d, M)
-
-graficar_psk(umbrales,psk_gray_map)
-
-print("Umbrales:", umbrales)
-print("Mapa PSK a Gray:")
-for sym, gray in psk_gray_map.items():
-    print(f"Símbolo: {sym:.2f}, Código de Gray: {format(gray, f'0{int(np.log2(M))}b')}")
+# d=2
+# M = 16
+# #symbols, umbrales, pam_gray_map = pam(d, M)
+# umbrales, psk_gray_map = psk(d, M)
+#
+# # graficar_psk(umbrales,psk_gray_map)
+#
+# print("Umbrales:", umbrales)
+# print("Mapa PSK a Gray:")
+# for sym, gray in psk_gray_map.items():
+#     print(f"Símbolo: {sym:.2f}, Código de Gray: {format(gray, f'0{int(np.log2(M))}b')}")

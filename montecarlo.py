@@ -1,22 +1,23 @@
-import numpy as np
-from scipy.stats import norm
+
 from Constelacion import *
 
 
 d = 2
 M = 4
-k = np.log2(M)
+k = int(np.log2(M))
 
 #n es la cantidad de veces q lo genera (va a ser cuantos arrays queremos hacer)
 n = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian filas!
 p = 0.5
-n_bits = k*10**1 #van a ser columnas
+n_bits = M*10**1 #van a ser columnas
 bit_array_send = np.random.binomial(n,p,n_bits)
 
 
 
 modulacion = Constelacion(d,M,'PSK')
-modulacion.graficar()
+# modulacion.graficar()
+simbolos_codificados = modulacion.codificarBits(bit_array_send)
+print(simbolos_codificados)
 
 # #Empezamos con la PSK
 # EbNoDB = np.arange(0,10,1) #De 0 a 10dB
@@ -26,11 +27,7 @@ modulacion.graficar()
 # std = np.sqrt(sigma)
 # ruido = np.random.normal(0, std, n_bits)
 #
-#
-#
-#
-#
-#
+
 # Pes = np.zeros_like(EbNo)
 # j = 0
 # for i in EbNo:
