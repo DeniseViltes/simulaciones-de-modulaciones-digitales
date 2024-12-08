@@ -9,7 +9,6 @@ class TipoConstelacion(Enum):
     QAM = 3
     FSK = 4
 
-
 fuciones_constelaciones = {
         'ASK': ask,
         'PSK': psk,
@@ -43,8 +42,7 @@ class Constelacion:
                 constelacion_str.upper()]  # Aseguramos que el string esté en mayúsculas
 
             funcion = fuciones_constelaciones[constelacion_str.lower()]
-            simbolos, umbral, gray_map = funcion()
-            self.simbolos = simbolos
+            gray_map,umbral = funcion()
             self.umbrales = umbral
             self.codigo= gray_map
             return constelacion_enum
@@ -60,3 +58,8 @@ class Constelacion:
         }
         funcion = graficadores[TipoConstelacion]
         funcion(self.simbolos, self.umbrales, self.codigo)
+
+    def codificarBits(self, bits):
+        cantidadBits = len(bits)
+        for i in range(0,cantidadBits,self.M):
+

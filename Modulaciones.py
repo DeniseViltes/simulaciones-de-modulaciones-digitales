@@ -20,10 +20,10 @@ def ask(d, M):
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]
     gray_labels = [binary_to_gray(b) for b in binary_labels]
-    pam_gray_map = dict(zip(symbols, gray_labels))
+    gray_map = dict(zip(gray_labels,symbols))
 
 
-    return symbols,umbrales,pam_gray_map
+    return gray_map,umbrales
 
 
 def psk(d, M):
@@ -40,9 +40,9 @@ def psk(d, M):
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]
     gray_labels = [binary_to_gray(b) for b in binary_labels]
-    psk_gray_map = dict(zip(symbols, gray_labels))
+    gray_map = dict(zip(symbols, gray_labels))
 
-    return symbols, ang_umbrales, psk_gray_map
+    return gray_map,ang_umbrales
 
 def qam(d, M):
     return
@@ -55,11 +55,10 @@ def fsk(d, M):
 d=2
 M = 16
 #symbols, umbrales, pam_gray_map = pam(d, M)
-symbols, umbrales, psk_gray_map = psk(d, M)
+umbrales, psk_gray_map = psk(d, M)
 
-graficar_psk(symbols,umbrales,psk_gray_map)
+graficar_psk(umbrales,psk_gray_map)
 
-print("Símbolos:", symbols)
 print("Umbrales:", umbrales)
 print("Mapa PSK a Gray:")
 for sym, gray in psk_gray_map.items():

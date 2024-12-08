@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def graficar_psk(symbols, ang_umbrales, psk_gray_map):
+def graficar_psk(ang_umbrales, psk_gray_map):
     # Crear figura
     plt.figure(figsize=(8, 8))
     ax = plt.gca()
-
+    symbols = psk_gray_map.values()
     # Dibujar círculo unitario
     circle = plt.Circle((0, 0), 1, color='lightgray', fill=False, linestyle='--', linewidth=1)
     ax.add_artist(circle)
