@@ -4,11 +4,6 @@ import seaborn as sb
 from scipy.stats import norm
 
 
-#def decisor(recibidos, codigo,M):
- #   for j in range(len(recibidos)):
-  #      for i in range(M):
-
-
 
 #n es la cantidad de veces q lo genera (va a ser cuantos arrays queremos hacer)
 n = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian filas!

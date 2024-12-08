@@ -1,4 +1,6 @@
 import numpy as np
+from  graficadores import *
+
 
 def validar_M(M):
     if not (M > 0 and (M & (M - 1)) == 0):
@@ -15,7 +17,6 @@ def normalizar_constelacion(symbols):
     return symbols / np.sqrt(potencia_promedio)
 
 def binary_to_gray(binary):
-    """Convierte un número binario a código de Gray"""
     return binary ^ (binary >> 1)
 
 def pam(d, M):
@@ -59,6 +60,7 @@ M = 16
 #symbols, umbrales, pam_gray_map = pam(d, M)
 symbols, umbrales, psk_gray_map = psk(d, M)
 
+graficar_psk(symbols,umbrales,psk_gray_map)
 
 print("Símbolos:", symbols)
 print("Umbrales:", umbrales)
