@@ -65,24 +65,24 @@ def plot_qam(d, M):
         plt.axhline(i * d_norm - (size / 2) * d_norm, color='crimson', linestyle='--', lw=1)
         plt.axvline(i * d_norm - (size / 2) * d_norm, color='crimson', linestyle='--', lw=1)
 
-    for i in range(size - 1):
-        for j in range(size - 1):
-            # Coordenadas de las esquinas opuestas de la celda (i, j)
-            x1 = symbols[i + j * size].real
-            y1 = symbols[i + j * size].imag
-            x2 = symbols[(i + 1) + (j + 1) * size].real
-            y2 = symbols[(i + 1) + (j + 1) * size].imag
-
-            # Dibujar la primera diagonal (de la esquina inferior izquierda a la superior derecha)
-            plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
-
-            # Segunda diagonal (de la esquina inferior derecha a la superior izquierda)
-            x1 = symbols[(i + 1) + j * size].real
-            y1 = symbols[(i + 1) + j * size].imag
-            x2 = symbols[i + (j + 1) * size].real
-            y2 = symbols[i + (j + 1) * size].imag
-
-            plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
+    # for i in range(size - 1):
+    #     for j in range(size - 1):
+    #         # Coordenadas de las esquinas opuestas de la celda (i, j)
+    #         x1 = symbols[i + j * size].real
+    #         y1 = symbols[i + j * size].imag
+    #         x2 = symbols[(i + 1) + (j + 1) * size].real
+    #         y2 = symbols[(i + 1) + (j + 1) * size].imag
+    #
+    #         # Dibujar la primera diagonal (de la esquina inferior izquierda a la superior derecha)
+    #         plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
+    #
+    #         # Segunda diagonal (de la esquina inferior derecha a la superior izquierda)
+    #         x1 = symbols[(i + 1) + j * size].real
+    #         y1 = symbols[(i + 1) + j * size].imag
+    #         x2 = symbols[i + (j + 1) * size].real
+    #         y2 = symbols[i + (j + 1) * size].imag
+    #
+    #         plt.plot([x1, x2], [y1, y2], '--', lw=1,color='peru')
 
     plt.scatter(symbols.real, symbols.imag, c='plum')
     plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
