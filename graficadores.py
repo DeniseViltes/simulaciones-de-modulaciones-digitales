@@ -36,3 +36,13 @@ def graficar_psk(symbols, ang_umbrales, psk_gray_map):
     plt.grid(color='lightgray', linestyle='--', linewidth=0.5)
     # plt.legend(loc='upper right', fontsize=8)
     plt.show()
+
+def graficar_ask(symbols, ang_umbrales, psk_gray_map):
+    return
+
+
+def graficar_fsk(symbols, ang_umbrales, psk_gray_map):
+    return
+
+def graficar_qam(symbols, ang_umbrales, psk_gray_map):
+    return

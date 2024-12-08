@@ -1,5 +1,6 @@
 from enum import Enum
 from Modulaciones import *
+from graficadores import *
 
 
 class TipoConstelacion(Enum):
@@ -49,3 +50,13 @@ class Constelacion:
             return constelacion_enum
         except KeyError:
             return None, "Constelacion no válida"
+
+    def graficar(self):
+        graficadores = {
+            TipoConstelacion.ASK : graficar_ask,
+            TipoConstelacion.PSK : graficar_psk,
+            TipoConstelacion.QAM : graficar_qam,
+            TipoConstelacion.FSK : graficar_fsk
+        }
+        funcion = graficadores[TipoConstelacion]
+        funcion(self.simbolos, self.umbrales, self.codigo)
