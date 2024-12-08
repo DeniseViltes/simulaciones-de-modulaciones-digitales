@@ -18,7 +18,7 @@ def normalizar_constelacion(symbols):
 
 
 # Función para graficar ASK
-def plot_ask(d, M):
+def plot_pam(d, M):
     validar_M(M)
     symbols = np.arange(-((M - 1) / 2), ((M - 1) / 2) + 1) * d
     symbols = normalizar_constelacion(symbols)
@@ -37,6 +37,7 @@ def plot_ask(d, M):
     plt.tight_layout()
     plt.savefig(f'results/{M}-PAM.png')
     plt.show()
+    return symbols
 
 
 # Función para graficar QAM
@@ -93,6 +94,7 @@ def plot_qam(d, M):
     plt.axis('equal')
     plt.savefig(f'results/{M}-QAM.png')
     plt.show()
+    return symbols
 
 
 # Función para graficar PSK
@@ -118,6 +120,7 @@ def plot_psk(d, M):
     plt.axis('equal')
     plt.savefig(f'results/{M}-PSK.png')
     plt.show()
+    return symbols
 
 
 def plot_2fsk(d):
@@ -148,13 +151,13 @@ def plot_2fsk(d):
     plt.axis('equal')
     plt.savefig('results/2-FSK.png')
     plt.show()
+    return  symbols_normalizados
 
 
 # Configuración general
 M =16  # Cantidad de símbolos
 d = 2  # Distancia mínima entre símbolos
-
-# plot_ask(d, M)
-plot_qam(d, M)
-# plot_psk(d, M)
-# plot_2fsk(d)
+simbolos_pam =plot_pam(d, M)
+simbolos_qam=plot_qam(d, M)
+simbolos_psk =plot_psk(d, M)
+simbolos_fsk = plot_2fsk(d)
