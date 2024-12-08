@@ -17,7 +17,7 @@ def normalizar_constelacion(symbols):
     return symbols / np.sqrt(potencia_promedio)
 
 
-# Función para graficar ASK
+# Función para graficar ASK je
 def plot_pam(d, M):
     validar_M(M)
     symbols = np.arange(-((M - 1) / 2), ((M - 1) / 2) + 1) * d
