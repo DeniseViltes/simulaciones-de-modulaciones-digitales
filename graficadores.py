@@ -12,6 +12,7 @@ def graficar_psk(ang_umbrales, psk_gray_map):
 
     # Graficar símbolos PSK
     for gray,sym in psk_gray_map.items():
+        print(sym)
         plt.plot(sym.real, sym.imag, 'o',color = 'crimson', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
         plt.text(sym.real * 1.1, sym.imag * 1.1, f'{format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}',
                  color='blue', fontsize=10, ha='center')

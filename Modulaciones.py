@@ -1,7 +1,7 @@
 from  graficadores import *
 
 
-def binario_a_decimal(arr):
+def array_binario_a_gray(arr):
     # Aseguramos que el array esté en formato de tipo int
     arr = np.array(arr, dtype=int)
     suma = 0
@@ -9,7 +9,7 @@ def binario_a_decimal(arr):
     for i in arr[::-1]:
         suma += i*2**j
         j += 1
-    return suma
+    return binary_to_gray(suma)
 
 def normalizar_constelacion(sim):
 
@@ -50,7 +50,6 @@ def psk(d, M):
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]
     gray_labels = [binary_to_gray(b) for b in binary_labels]
-    print(gray_labels)
     gray_map = dict(zip(gray_labels,symbols))
 
     return gray_map,ang_umbrales

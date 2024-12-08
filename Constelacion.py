@@ -1,4 +1,7 @@
 from enum import Enum
+
+import numpy as np
+
 from Modulaciones import *
 from graficadores import *
 
@@ -64,16 +67,17 @@ class Constelacion:
 
     def codificarBits(self, bits):
         cantidadBits = len(bits)
-        simbolosCodificados = np.zeros(self.M)
+        k = int(np.log2(self.M))
+        simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
         pos_codificados = 0
-        for i in range(0,cantidadBits,self.M):
-            s= bits[i:i+self.M]
-            simbolo = self.codigo.get(binario_a_decimal(s))
+        for i in range(0,cantidadBits,k):
+            s= bits[i:i+k]
+            simbolo = self.codigo.get(array_binario_a_gray(s))
             if simbolo is None:
                 return None, "Constelacion no válida"
             simbolosCodificados[pos_codificados] = simbolo
             pos_codificados+=1
-        return simbolosCodificados
+        return np.array(simbolosCodificados)
 
 
 
