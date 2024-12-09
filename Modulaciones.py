@@ -22,11 +22,12 @@ def binary_to_gray(binary):
     return binary ^ (binary >> 1)
 
 def ask(d, M):
-    symbols = np.arange(-((M - 1) / 2), ((M - 1) / 2) + 1) * d
-    # symbols = normalizar_constelacion(symbols)
-    # symbols = np.real(symbols)
+    symbols = np.arange(0, (((M - 1) / 2) + 1) * 2) * d
+    n=len(symbols)
+    symbols = normalizar_constelacion(symbols)
+    symbols = np.real(symbols)
     d_norm = symbols[0]-symbols[1] # lo harcodeo
-    umbrales= symbols[1:] + (d_norm / 2)
+    umbrales= symbols[1:n-1] + (d_norm / 2)
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]
     gray_labels = [binary_to_gray(b) for b in binary_labels]
@@ -54,22 +55,44 @@ def psk(d, M):
 
     return gray_map,ang_umbrales
 
+
 def qam(d, M):
-    return
+    if M == 2:
+        # Caso especial para 2-QAM (idéntico a 2-PSK)
+        symbols = np.array([-d / 2, d / 2])
+    else:
+        # Constelación cuadrada para M-QAM
+        size = int(np.sqrt(M))
+        x, y = np.meshgrid(np.arange(size) * d, np.arange(size) * d)
+        x = x.flatten() - ((size - 1) / 2) * d
+        y = y.flatten() - ((size - 1) / 2) * d
+        symbols = x + 1j * y
+
+    symbols = normalizar_constelacion(symbols)
+
+    # Calcular el valor normalizado
+    size = int(np.sqrt(M))
+    d_norm = symbols[0] - symbols[1]
+
+    # Umbrales (para demodulación, en este caso, se usan para el mapeo)
+    umbrales = np.arange(1, size)
+    umbrales = umbrales * d_norm - (size / 2) * d_norm
+
+    # Generar etiquetas binarias y convertirlas a Gray
+    binary_labels = np.arange(M)
+    gray_labels = [binary_to_gray(b) for b in binary_labels]
+
+    # Mapeo entre códigos de Gray y los símbolos en la constelación
+    gray_map = dict(zip(gray_labels, symbols))
+
+    return gray_map, umbrales
+
 
 def fsk(d, M):
-    return
+    frecuencias = np.arange(M) * d
+    binary_labels = np.arange(M)
+    gray_labels = [binary_to_gray(b) for b in binary_labels]
+    gray_map = dict(zip(gray_labels, frecuencias))
+    return gray_map, frecuencias
 
 
-
-# d=2
-# M = 16
-# #symbols, umbrales, pam_gray_map = pam(d, M)
-# umbrales, psk_gray_map = psk(d, M)
-#
-# # graficar_psk(umbrales,psk_gray_map)
-#
-# print("Umbrales:", umbrales)
-# print("Mapa PSK a Gray:")
-# for sym, gray in psk_gray_map.items():
-#     print(f"Símbolo: {sym:.2f}, Código de Gray: {format(gray, f'0{int(np.log2(M))}b')}")

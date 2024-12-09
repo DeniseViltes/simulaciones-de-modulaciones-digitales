@@ -1,6 +1,6 @@
 from enum import Enum
 
-import numpy as np
+from numpy.ma.core import indices
 
 from Modulaciones import *
 from graficadores import *
@@ -30,13 +30,12 @@ def validar_M(M):
 class Constelacion:
     # Elijo la constelación con un string, puede ser 'ASK', 'PSK', 'QAM', 'FSK'
     def __init__(self, d, M,constelacion):
+        validar_M(M)
         self.umbrales = None
         self.codigo = None
-        validar_M(M)
         self.d = d
         self.M = M
         self.tipoConstelacion = self.crear_simbolos(constelacion)
-
 
 
 
@@ -78,6 +77,90 @@ class Constelacion:
             simbolosCodificados[pos_codificados] = simbolo
             pos_codificados+=1
         return np.array(simbolosCodificados)
+
+
+    def decisor_PSK(self,posicion_recibida):
+        posicion_recibida = np.angle(posicion_recibida[:]) * 180/np.pi # agregar q si es maypr a 360 restarle 360
+        simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
+
+        posiciones = list(self.codigo.values())
+        indice = 0
+        for i in posicion_recibida:
+            if i <0:
+                i+= 360
+            j = 0
+
+            for umbral in self.umbrales:
+                if i <= umbral:
+                    simbolos_estimado[indice] = posiciones[j]
+                    break
+                elif i > umbral:
+                    j +=1
+                else:
+                    simbolos_estimado[indice] = posiciones[0]
+            indice +=1
+
+        return simbolos_estimado
+
+
+    def decisor_ASK(self,posicion_recibida):
+        simbolo_estimado =[]
+        posiciones = list(self.codigo.values())
+
+        for pos in posicion_recibida:
+            j = next((idx for idx, umbral in enumerate(self.umbrales) if pos <= umbral), 0)
+            simbolo_estimado.append(posiciones[j])
+
+        simbolo_estimado = np.array(simbolo_estimado)
+
+
+
+    def decisor_QAM(self,posicion_recibida):
+        #simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
+        umbrales = np.sort(np.real(self.umbrales))
+        '''
+        def hallar_umbral_superior(posicion , umbrales):
+            contador = 0
+            umbrales = np.sort(self.umbrales)
+            while posicion <= umbrales[contador]:
+                contador +=1
+            return contador
+        '''
+        indice = 0
+
+        for i in posicion_recibida:
+
+            x = np.real(i)
+            y = np.imag(i)
+
+            #forma 1
+            #indice_x =hallar_umbral_superior(x,self.umbrales)
+            #indice_y = hallar_umbral_superior(y,self.umbrales)
+
+            #forma 2
+            simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
+            posiciones = list(self.codigo.values())
+            contador_y = 0
+
+
+            for a in umbrales:
+                contador_x = 0
+                for b in umbrales:
+
+                    if x <= b and y <= a:
+                        simbolos_estimado[indice] = posiciones[contador_x + contador_y*4]
+                        break
+                    elif x > b and y > a:
+                        simbolos_estimado[indice] = posiciones[contador_x + contador_y * 4]
+                        break
+                    else:
+                        contador_x +=1
+                contador_y +=1
+
+            indice += 1
+        return simbolos_estimado
+        #bueno no funca, mañana veo de si hay forma mas optima, para mi con lo de usarlo en coordenadas sea mas facil
+        #o de hacer con mas if menos iteraciones para recorrer la matriz.
 
 
 
