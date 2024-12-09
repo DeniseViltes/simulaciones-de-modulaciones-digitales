@@ -43,8 +43,8 @@ simbolos_decodificados = modulacion.decisor_PSK(simbolos_con_ruido)
 simbolos_decodif_qam = mod_qam.decisor_QAM(simbolo_ruido_qam)
 
 print('pos codificado',simbolos_codif_qam)
-print('angulos recibido',simbolo_ruido_qam)
-print('angulo decod',simbolos_decodif_qam)
+print('pos recibida',simbolo_ruido_qam)
+print('pos decod',simbolos_decodif_qam)
 '''
 print('umbrales')
 print('angulos codificado',np.angle(simbolos_codificados)*180/np.pi)

@@ -116,27 +116,36 @@ class Constelacion:
 
 
     def decisor_QAM(self,posicion_recibida):
-        #simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
+        simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
+        posiciones = list(self.codigo.values())
         umbrales = np.sort(np.real(self.umbrales))
-        '''
-        def hallar_umbral_superior(posicion , umbrales):
-            contador = 0
-            umbrales = np.sort(self.umbrales)
-            while posicion <= umbrales[contador]:
-                contador +=1
-            return contador
-        '''
         indice = 0
 
-        for i in posicion_recibida:
+        for pos in posicion_recibida:
 
-            x = np.real(i)
-            y = np.imag(i)
+            x = np.real(pos)
+            y = np.imag(pos)
 
             #forma 1
-            #indice_x =hallar_umbral_superior(x,self.umbrales)
-            #indice_y = hallar_umbral_superior(y,self.umbrales)
 
+            indice_x = 0
+            indice_y = 0
+
+            for i in umbrales:
+                if x <= i :
+                    break
+                else:
+                    indice_x +=1
+            for j in umbrales:
+                if y <= j :
+                    break
+                else:
+                    indice_y +=1
+            simbolos_estimado[indice] = posiciones[indice_x + indice_y * 4]
+
+        return simbolos_estimado
+
+'''
             #forma 2
             simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
             posiciones = list(self.codigo.values())
@@ -161,6 +170,21 @@ class Constelacion:
         return simbolos_estimado
         #bueno no funca, mañana veo de si hay forma mas optima, para mi con lo de usarlo en coordenadas sea mas facil
         #o de hacer con mas if menos iteraciones para recorrer la matriz.
+    '''
+
+
+'''
+        def hallar_umbral_superior(posicion , umbrales):
+            contador = 0
+            umbrales = np.sort(self.umbrales)
+            while posicion <= umbrales[contador]:
+                contador +=1
+            return contador
+        '''
+
+
+
+
 
 
 
