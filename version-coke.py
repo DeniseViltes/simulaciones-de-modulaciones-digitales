@@ -129,11 +129,11 @@ def plot_fsk(d, M):
 
 
 # Configuración general
-M = 16  #Cantidad de símbolos
+M = 3  #Cantidad de símbolos
 d = 2  # Distancia mínima entre símbolos
 
-plot_ask(d, M)
-plot_qam(d, M)
-plot_psk(d, M)
+# plot_ask(d, M)
+# plot_qam(d, M)
+# plot_psk(d, M)
 if M <= 3:
     plot_fsk(d, M)

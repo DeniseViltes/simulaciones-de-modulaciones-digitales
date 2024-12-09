@@ -1,6 +1,6 @@
 from enum import Enum
 
-from numpy.ma.core import indices
+from numpy.ma.core import zeros_like
 
 from Modulaciones import *
 from graficadores import *
@@ -18,6 +18,15 @@ fuciones_constelaciones = {
     TipoConstelacion.QAM: qam,
     TipoConstelacion.FSK: fsk
 }
+
+def array_binario_a_decimal(arr):
+    arr = np.array(arr, dtype=int)
+    suma = 0
+    j = 0
+    for i in arr[::-1]:
+        suma += i*2**j
+        j += 1
+    return suma
 
 def validar_M(M):
     if not (M > 0 and (M & (M - 1)) == 0):
@@ -67,11 +76,14 @@ class Constelacion:
     def codificarBits(self, bits):
         cantidadBits = len(bits)
         k = int(np.log2(self.M))
-        simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
+        if self.tipoConstelacion == TipoConstelacion.QAM or self.tipoConstelacion == TipoConstelacion.PSK:
+            simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
+        else:
+            simbolosCodificados = np.zeros(int(cantidadBits / k))
         pos_codificados = 0
         for i in range(0,cantidadBits,k):
             s= bits[i:i+k]
-            simbolo = self.codigo.get(array_binario_a_gray(s))
+            simbolo = self.codigo.get(array_binario_a_decimal(s))
             if simbolo is None:
                 return None, "Constelacion no válida"
             simbolosCodificados[pos_codificados] = simbolo
@@ -104,14 +116,27 @@ class Constelacion:
 
 
     def decisor_ASK(self,posicion_recibida):
-        simbolo_estimado =[]
+        simbolo_estimado =zeros_like(posicion_recibida)
         posiciones = list(self.codigo.values())
+        indice = 0
+        for i in posicion_recibida:
+            if i < 0:
+                i += 360
+            j = 0
 
-        for pos in posicion_recibida:
-            j = next((idx for idx, umbral in enumerate(self.umbrales) if pos <= umbral), 0)
-            simbolo_estimado.append(posiciones[j])
+            for umbral in self.umbrales:
+                if i <= umbral:
+                    simbolo_estimado[indice] = posiciones[j]
+                    break
+                elif i > umbral:
+                    j += 1
+                else:
+                    simbolo_estimado[indice] = posiciones[0]
+            indice += 1
 
-        simbolo_estimado = np.array(simbolo_estimado)
+        return simbolo_estimado
+
+
 
 
 

@@ -60,7 +60,23 @@ def graficar_ask(umbrales, gray_map):
     plt.show()
 
 
-def graficar_fsk(mbrales, gray_map):
+def graficar_fsk(umbrales, gray_map):
+    symbols = list(gray_map.values())
+    codigo = list(gray_map.keys())
+    M = len(symbols)
+    if M != 2 :
+        return None
+    for i in range(M):
+        plt.plot(symbols[i][0],symbols[i][1])
+        plt.text(symbols[i][0],symbols[i][1], f'{codigo[i]}', color='red', fontsize=10, ha='center')
+
+    plt.title(f'Constelación FSK (M={M})')
+    plt.xlabel('I')
+    plt.xlabel('Q')
+    # plt.grid(True)
+    plt.axis('equal')
+    plt.savefig(f'results/{M}-PAM.png')
+    plt.show()
     return
 
 def graficar_qam(umbrales, gray_map):
@@ -74,18 +90,19 @@ def graficar_qam(umbrales, gray_map):
         plt.axhline(i, color='crimson', linestyle='--', lw=1)
         plt.axvline(i, color='crimson', linestyle='--', lw=1)
 
-    
+
     for gray, sym in gray_map.items():
         sym = complex(sym)
         plt.plot(sym.real, sym.imag, 'o', color='crimson',
                  label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
         plt.text(sym.real * 1, sym.imag +0.05, f'{format(gray, f"0{int(np.log2(len(gray_map)))}b")}',
                  color='blue', fontsize=10, ha='center')
-    
+
     plt.title(f'Constelación QAM (M={M})')
     plt.xlabel('I')
     plt.xlabel('Q')
     # plt.grid(True)
-    plt.axis('equal')
+    plt.ylim([-1.3, 1.3])
+    plt.xlim([-1.3, 1.3])
     plt.savefig(f'results/{M}-QAM.png')
     plt.show()

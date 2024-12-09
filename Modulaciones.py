@@ -1,15 +1,7 @@
 from  graficadores import *
 
 
-def array_binario_a_gray(arr):
-    # Aseguramos que el array esté en formato de tipo int
-    arr = np.array(arr, dtype=int)
-    suma = 0
-    j = 0
-    for i in arr[::-1]:
-        suma += i*2**j
-        j += 1
-    return binary_to_gray(suma)
+
 
 def normalizar_constelacion(sim):
 
@@ -78,7 +70,30 @@ def qam(d, M):
     umbrales = np.arange(1, size)
     umbrales = umbrales * d_norm - (size / 2) * d_norm
 
-    # Generar etiquetas binarias y convertirlas a Gray
+    snake_indices = []
+    for row in range(size):
+        if row % 2 == 0:
+            # Recorrer de izquierda a derecha
+            snake_indices.extend(range(row * size, (row + 1) * size))
+        else:
+            # Recorrer de derecha a izquierda
+            snake_indices.extend(range((row + 1) * size - 1, row * size - 1, -1))
+
+    symbols = symbols[snake_indices]
+
+    # Etiquetas en Gray para las coordenadas I y Q
+    gray_i = [binary_to_gray(i) for i in range(size)]
+    gray_q = [binary_to_gray(q) for q in range(size)]
+
+    # Construir el mapeo final (Gray para I y Q)
+    gray_map = {}
+    for idx, symbol in enumerate(symbols):
+        i_idx = int(idx % size)  # Índice para I
+        q_idx = int(idx // size)  # Índice para Q
+        gray_code = (gray_q[q_idx] << (size.bit_length() - 1)) | gray_i[i_idx]
+        gray_map[gray_code] = symbol
+
+
     binary_labels = np.arange(M)
     gray_labels = [binary_to_gray(b) for b in binary_labels]
 
@@ -87,12 +102,14 @@ def qam(d, M):
 
     return gray_map, umbrales
 
-
+# Revsar fsk
 def fsk(d, M):
-    frecuencias = np.arange(M) * d
+    # devuelvo el umbral vacio, no uso el umbral en el decisor
+    symbols = np.eye(M)
+    umbrales = []
     binary_labels = np.arange(M)
     gray_labels = [binary_to_gray(b) for b in binary_labels]
-    gray_map = dict(zip(gray_labels, frecuencias))
-    return gray_map, frecuencias
+    gray_map = dict(zip(gray_labels, symbols))
+    return gray_map, umbrales
 
 
