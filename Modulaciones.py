@@ -50,8 +50,12 @@ def psk(d, M):
 
 def qam(d, M):
     if M == 2:
-        # Caso especial para 2-QAM (idéntico a 2-PSK)
-        symbols = np.array([-d / 2, d / 2])
+        # Caso especial para 2-QAM
+        symbols = np.array([-d/2 , d/2]) # = [a,b]
+        umbral = [0]
+        gray_labels = {0 , 1}
+        gray_map = dict(zip(gray_labels, symbols))
+        return gray_map,umbral
     else:
         # Constelación cuadrada para M-QAM
         size = int(np.sqrt(M))
@@ -64,11 +68,13 @@ def qam(d, M):
 
     # Calcular el valor normalizado
     size = int(np.sqrt(M))
-    d_norm = symbols[0] - symbols[1]
+    d_norm = np.abs(symbols[0] - symbols[1])
 
-    # Umbrales (para demodulación, en este caso, se usan para el mapeo)
-    umbrales = np.arange(1, size)
-    umbrales = umbrales * d_norm - (size / 2) * d_norm
+    umbrales = []
+    for i in range(1, size):
+        umbrales.append( i * d_norm - (size / 2) * d_norm)
+    umbrales = np.array(umbrales)
+
 
     snake_indices = []
     for row in range(size):
@@ -80,7 +86,6 @@ def qam(d, M):
             snake_indices.extend(range((row + 1) * size - 1, row * size - 1, -1))
 
     symbols = symbols[snake_indices]
-
     # Etiquetas en Gray para las coordenadas I y Q
     gray_i = [binary_to_gray(i) for i in range(size)]
     gray_q = [binary_to_gray(q) for q in range(size)]
@@ -97,9 +102,7 @@ def qam(d, M):
     binary_labels = np.arange(M)
     gray_labels = [binary_to_gray(b) for b in binary_labels]
 
-    # Mapeo entre códigos de Gray y los símbolos en la constelación
     gray_map = dict(zip(gray_labels, symbols))
-
     return gray_map, umbrales
 
 # Revsar fsk

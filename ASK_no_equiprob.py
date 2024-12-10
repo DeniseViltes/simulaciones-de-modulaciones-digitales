@@ -13,7 +13,6 @@ Eb = 1
 # Amplitudes de los símbolos
 s0 = 0
 s1 = np.sqrt(2*Eb)
-
 # Probabilidad de error teórica
 Pe_teorica = []
 for ebn0 in EbN0:
@@ -46,4 +45,4 @@ plt.ylabel(r"Probabilidad de error $P_e$")
 plt.title(r"Probabilidad de error para 2-ASK con $p=1/4$ y $q=3/4$")
 plt.legend()
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-plt.show()
+# plt.show()

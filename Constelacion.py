@@ -28,11 +28,22 @@ def array_binario_a_decimal(arr):
         j += 1
     return suma
 
+def gray_to_binary_array(gray_decimal, num_bits):
+    # Convertir de Gray a binario estándar
+    binary_decimal = gray_decimal
+    shift = gray_decimal >> 1
+    while shift:
+        binary_decimal ^= shift
+        shift >>= 1
+    binary_array = np.array([int(bit) for bit in format(binary_decimal, f'0{num_bits}b')], dtype=int)
+    return binary_array
+
+
 def validar_M(M):
     if not (M > 0 and (M & (M - 1)) == 0):
         raise ValueError("M debe ser una potencia de 2.")
-    if M > 2 and not (np.sqrt(M).is_integer()):
-        raise ValueError("Para QAM, M debe tener una raíz cuadrada entera si M > 2.")
+    # if M > 2 and not (np.sqrt(M).is_integer()):
+    #     raise ValueError("Para QAM, M debe tener una raíz cuadrada entera si M > 2.")
 
 
 
@@ -74,87 +85,23 @@ class Constelacion:
         funcion(self.umbrales, self.codigo)
 
     def codificarBits(self, bits):
-        cantidadBits = len(bits)
         k = int(np.log2(self.M))
+        cantidadBits = len(bits)
+        cantidadBits = (cantidadBits // k) * k
         if self.tipoConstelacion == TipoConstelacion.QAM or self.tipoConstelacion == TipoConstelacion.PSK:
             simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
         else:
             simbolosCodificados = np.zeros(int(cantidadBits / k))
         pos_codificados = 0
-        for i in range(0,cantidadBits,k):
+        for i in range(0,cantidadBits-k,k):
             s= bits[i:i+k]
             simbolo = self.codigo.get(array_binario_a_decimal(s))
-            if simbolo is None:
-                return None, "Constelacion no válida"
+            # if simbolo is None:
+            #     return None, "Constelacion no válida"
             simbolosCodificados[pos_codificados] = simbolo
             pos_codificados+=1
-        return np.array(simbolosCodificados)
+        return simbolosCodificados
 
-
-    def decisor_PSK(self,posicion_recibida):
-        posicion_recibida = np.angle(posicion_recibida[:]) * 180/np.pi # agregar q si es maypr a 360 restarle 360
-        simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
-
-        posiciones = list(self.codigo.values())
-        indice = 0
-        for i in posicion_recibida:
-            if i <0:
-                i+= 360
-            j = 0
-
-            for umbral in self.umbrales:
-                if i <= umbral:
-                    simbolos_estimado[indice] = posiciones[j]
-                    break
-                elif i > umbral:
-                    j +=1
-                else:
-                    simbolos_estimado[indice] = posiciones[0]
-            indice +=1
-
-        return simbolos_estimado
-
-
-    def decisor_ASK(self,posicion_recibida):
-        simbolo_estimado =zeros_like(posicion_recibida)
-        posiciones = list(self.codigo.values())
-        indice = 0
-        for i in posicion_recibida:
-            if i < 0:
-                i += 360
-            j = 0
-
-            for umbral in self.umbrales:
-                if i <= umbral:
-                    simbolo_estimado[indice] = posiciones[j]
-                    break
-                elif i > umbral:
-                    j += 1
-                else:
-                    simbolo_estimado[indice] = posiciones[0]
-            indice += 1
-
-        return simbolo_estimado
-
-
-
-
-
-    def decisor_QAM(self,posicion_recibida):
-        simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
-        posiciones = list(self.codigo.values())
-        umbrales = np.sort(np.real(self.umbrales))
-        indice = 0
-
-        for pos in posicion_recibida:
-
-            x = np.real(pos)
-            y = np.imag(pos)
-
-            #forma 1
-
-            indice_x = 0
-            indice_y = 0
 
             for i in umbrales:
                 if x <= i :

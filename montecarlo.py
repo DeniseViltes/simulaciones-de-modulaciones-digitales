@@ -1,105 +1,57 @@
-from cProfile import label
-
 import matplotlib.pyplot as plt
 
 from Constelacion import *
-import numpy as np
 
+#DEFINICION DE PARAMETROS
 
 d = 2
-M = 2
+M = 4
 k = int(np.log2(M))
 
 #n es la cantidad de veces q lo genera (va a ser cuantos arrays queremos hacer)
 n = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian filas!
 p = 0.5
-n_bits = M*2 #van a ser columnas
+n_bits =4*10**3 #van a ser columnas
 bit_array_send = np.random.binomial(n,p,n_bits)
+# bit_array_send = [1,1,1,0]
+
+EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
+SNR = 10**(EbNoDB / 10)  # Eb/N0 lineal
+#PSK -> sigma^2 = No/2
+
+modulacion = Constelacion(d,M,'PSK')
+# modulacion.graficar()
+
+Es,Eb = modulacion.calcularEnergias()
 
 
-modulacion = Constelacion(d,M,'ASK')
-#modulacion.graficar()
-simbolos_codificados = modulacion.codificarBits(bit_array_send)
 
-# mod_qam = Constelacion(d,M,'QAM')
-# simbolos_codif_qam = mod_qam.codificarBits(bit_array_send)
-
-
-EbNoDB = np.arange(0,10,1) #De 0 a 10dB
-EbNo = 10**(EbNoDB/10)
-
-sigma = 0.1
+sigma = Eb/SNR
 std = np.sqrt(sigma)
 
-n_ruido = np.size(simbolos_codificados)
-ruido_x = np.random.normal(0,std,n_ruido)
-ruido_y =1j* np.random.normal(0, std, n_ruido)
-ruido = ruido_x + ruido_y
 
-# simbolo_ruido_qam = simbolos_codif_qam + ruido
+Pe = []
+for i in std:
+    simbolos_codificados = modulacion.codificarBits(bit_array_send)
+    n_ruido = len(simbolos_codificados)
+    ruido_x = np.random.normal(0,i,n_ruido)
+    ruido_y =1j* np.random.normal(0,i, n_ruido)
+    ruido = ruido_x + ruido_y
 
-simbolos_con_ruido = simbolos_codificados + ruido
-#print(np.angle(simbolos_codificados)*180/np.pi+180)
-#print(np.angle(simbolos_con_ruido)*180/np.pi+180)
+    simbolos_con_ruido = simbolos_codificados + ruido_x  #Estoy en ask, solo tengo componente en x
 
-simbolos_decodificados = modulacion.decisor_PSK(simbolos_con_ruido)
+    simbolos_decodificados = modulacion.decodificador(simbolos_con_ruido)
 
-# simbolos_decodif_qam = mod_qam.decisor_QAM(simbolo_ruido_qam)
+    P_acierto = modulacion.tasaDeExito(simbolos_decodificados,bit_array_send)
+    Pe.append( float(1-P_acierto))
 
-# print('pos codificado',simbolos_codif_qam)
-# print('pos recibida',simbolo_ruido_qam)
-# print('pos decod',simbolos_decodif_qam)
-'''
-print('umbrales')
-print('angulos codificado',np.angle(simbolos_codificados)*180/np.pi)
-print('angulos recibido',np.angle(simbolos_con_ruido)*180/np.pi)
-print('angulo decod',np.angle(simbolos_decodificados)*180/np.pi)
-'''
+plt.figure()
+plt.xlabel("SNR [dB]")
+plt.ylabel("Pe")
+plt.plot(EbNoDB,Pe)
 
-modQAM = Constelacion(d,M,'QAM')
-modASK = Constelacion(d,M,'ASK')
-
-modASK.graficar()
-# modQAM.graficar()
-
-simbolos_cod_ask= modASK.codificarBits(bit_array_send)
-simbolos_ask_con_ruido = simbolos_cod_ask + ruido_x
-
-decodificados_ask = modASK.decisor_ASK(simbolos_ask_con_ruido)
-
-
-fig = plt.figure()
-
-plt.scatter(simbolos_cod_ask, np.zeros_like(simbolos_cod_ask), label= 'pos codificado', marker='o', facecolors='none',edgecolors='blue')
-plt.scatter(decodificados_ask, np.zeros_like(decodificados_ask),label ='pos decod', marker='o')
-plt.scatter(simbolos_ask_con_ruido, np.zeros_like(simbolos_ask_con_ruido),label='pos recibida', marker='.')
-
-plt.legend()
 plt.show()
-print('pos codificado',simbolos_cod_ask)
-print('pos recibida',simbolos_ask_con_ruido)
-print('pos decod',decodificados_ask)
 
-# #Empezamos con la PSK
-# EbNoDB = np.arange(0,10,1) #De 0 a 10dB
-# EbNo = 10**(EbNoDB/10)
-#
-# sigma = 0.1
-# std = np.sqrt(sigma)
-# ruido = np.random.normal(0, std, n_bits)
-#
 
-# Pes = np.zeros_like(EbNo)
-# j = 0
-# for i in EbNo:
-#     x = np.sqrt(6*i*k/(M**2-1))
-#     Q = norm.sf(x)
-#     Pes[j] = 2*(1-1/M)*Q
-#     j+=1
-#
-# Peb = Pes/k
-# #PAM
-#
-# #mi compu anda como el ojete
 
 

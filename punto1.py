@@ -155,9 +155,9 @@ def plot_2fsk(d):
 
 
 # Configuración general
-M =16  # Cantidad de símbolos
+M =2  # Cantidad de símbolos
 d = 2  # Distancia mínima entre símbolos
-simbolos_pam =plot_pam(d, M)
+# simbolos_pam =plot_pam(d, M)
 simbolos_qam=plot_qam(d, M)
-simbolos_psk =plot_psk(d, M)
-simbolos_fsk = plot_2fsk(d)
+# simbolos_psk =plot_psk(d, M)
+# simbolos_fsk = plot_2fsk(d)
