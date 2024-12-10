@@ -1,9 +1,12 @@
 from enum import Enum
 
-from numpy.ma.core import zeros_like
-
+from ASK_no_equiprob import recibidos
 from Modulaciones import *
 from graficadores import *
+from Decisores import *
+from Energia import *
+import numpy as np
+
 
 
 class TipoConstelacion(Enum):
@@ -103,56 +106,57 @@ class Constelacion:
         return simbolosCodificados
 
 
-            for i in umbrales:
-                if x <= i :
-                    break
-                else:
-                    indice_x +=1
-            for j in umbrales:
-                if y <= j :
-                    break
-                else:
-                    indice_y +=1
-            simbolos_estimado[indice] = posiciones[indice_x + indice_y * 4]
+    def decodificador (self, posicion_recibida):
+        decisores = {
+            TipoConstelacion.ASK: decisor_ASK,
+            TipoConstelacion.PSK: decisor_PSK,
+            TipoConstelacion.QAM: decisor_QAM,
+            TipoConstelacion.FSK: decisor_FSK
+        }
+        tipo = self.tipoConstelacion
+        funcion = decisores[tipo]
+        k =int( np.log2(self.M))
+        posiciones_originales =list(self.codigo.values())
+        posiciones_decodificadas = funcion(posiciones_originales,self.umbrales,self.M, posicion_recibida)
 
-        return simbolos_estimado
-
-'''
-            #forma 2
-            simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
-            posiciones = list(self.codigo.values())
-            contador_y = 0
-
-
-            for a in umbrales:
-                contador_x = 0
-                for b in umbrales:
-
-                    if x <= b and y <= a:
-                        simbolos_estimado[indice] = posiciones[contador_x + contador_y*4]
-                        break
-                    elif x > b and y > a:
-                        simbolos_estimado[indice] = posiciones[contador_x + contador_y * 4]
-                        break
-                    else:
-                        contador_x +=1
-                contador_y +=1
-
-            indice += 1
-        return simbolos_estimado
-        #bueno no funca, mañana veo de si hay forma mas optima, para mi con lo de usarlo en coordenadas sea mas facil
-        #o de hacer con mas if menos iteraciones para recorrer la matriz.
-    '''
+        simbolos_decodificados = np.zeros(len(posiciones_decodificadas) * k, dtype=int)
+        pos_simbol = 0
+        for i in posiciones_decodificadas:
+            codigo = next((clave for clave, valor in self.codigo.items() if valor == i), None)
+            if codigo is None:
+                print(f"Error: No se encontró un código para la posición {i}")
+            simbolo_en_array = gray_to_binary_array(codigo, k)
+            simbolos_decodificados[pos_simbol:pos_simbol+k]= simbolo_en_array
+            pos_simbol+=k
+        return simbolos_decodificados.astype(int)
 
 
-'''
-        def hallar_umbral_superior(posicion , umbrales):
-            contador = 0
-            umbrales = np.sort(self.umbrales)
-            while posicion <= umbrales[contador]:
-                contador +=1
-            return contador
-        '''
+    def calcularEnergias(self):
+        energias={
+            TipoConstelacion.ASK: energiaDeSimbolo_ASK,
+            TipoConstelacion.PSK: energiaDeSimbolo_PSK,
+            TipoConstelacion.QAM: energiaDeSimbolo_QAM,
+            TipoConstelacion.FSK: energiaDeSimbolo_FSK
+        }
+        tipo = self.tipoConstelacion
+        funcion = energias[tipo]
+        k = int(np.log2(self.M))
+        energiaDeSimbolo = funcion(self.d,self.M)
+        energiaDeBit = energiaDeSimbolo/k
+        return energiaDeSimbolo,energiaDeBit
+
+    def tasaDeExito(self,recibido, transmitido):
+        exitos = 0
+        cantidad_bits = len(recibido)
+        k = int(np.log2(self.M))
+        for i in range(0,cantidad_bits,k):
+            palabra_recibida = recibido[i:i+k]
+            palabra_transmitida = transmitido[i:i+k]
+            exitos +=np.array_equal(palabra_recibida,palabra_transmitida)
+        cantidad_palabras = cantidad_bits/k
+        return exitos /cantidad_palabras
+
+
 
 
 

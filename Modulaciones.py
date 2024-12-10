@@ -110,9 +110,9 @@ def fsk(d, M):
     # devuelvo el umbral vacio, no uso el umbral en el decisor
     symbols = np.eye(M)
     umbrales = []
-    binary_labels = np.arange(M)
-    gray_labels = [binary_to_gray(b) for b in binary_labels]
-    gray_map = dict(zip(gray_labels, symbols))
-    return gray_map, umbrales
+    #binary_labels = np.arange(M)
+    #gray_labels = [binary_to_gray(b) for b in binary_labels]
+    #gray_map = dict(zip(gray_labels, symbols))
+    # return gray_map, umbrales
 
 

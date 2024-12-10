@@ -2,7 +2,7 @@ from Constelacion import *
 import numpy as np
 
 d = 2
-M = 4
+M = 2
 k = int(np.log2(M))
 
 n = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian filas!
