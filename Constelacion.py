@@ -96,7 +96,7 @@ class Constelacion:
         else:
             simbolosCodificados = np.zeros(int(cantidadBits / k))
         pos_codificados = 0
-        for i in range(0,cantidadBits-k,k):
+        for i in range(0,cantidadBits,k): #estaba como cantidadBits-k y por eso no entraba a la ultima palabra
             s= bits[i:i+k]
             simbolo = self.codigo.get(array_binario_a_decimal(s))
             # if simbolo is None:
@@ -152,7 +152,7 @@ class Constelacion:
         for i in range(0,cantidad_bits,k):
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
-            exitos +=np.array_equal(palabra_recibida,palabra_transmitida)
+            exitos += np.array_equal(palabra_recibida,palabra_transmitida)
         cantidad_palabras = cantidad_bits/k
         return exitos /cantidad_palabras
 

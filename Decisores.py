@@ -2,7 +2,7 @@ import numpy as np
 
 
 def decisor_PSK(posiciones_originales,umbrales,M, posicion_recibida):
-    posicion_recibida = np.angle(posicion_recibida[:]) * 180 / np.pi  # agregar q si es maypr a 360 restarle 360
+    posicion_recibida = np.angle(posicion_recibida[:]) * 180 / np.pi  # agregar q si es mayor a 360 restarle 360
     simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
 
     posiciones = posiciones_originales

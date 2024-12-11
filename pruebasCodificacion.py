@@ -11,10 +11,10 @@ n_bits = M*2 #van a ser columnas
 bit_array_send = np.random.binomial(n,p,n_bits)
 
 print(bit_array_send)
-mod_ASK = Constelacion(d,M,'ASK')
+mod_PSK = Constelacion(d,M,'PSK')
 
-mod_ASK.graficar()
-simbolos_codificados = mod_ASK.codificarBits(bit_array_send)
+mod_PSK.graficar()
+simbolos_codificados = mod_PSK.codificarBits(bit_array_send)
 
 sigma = 0.01
 std = np.sqrt(sigma)
@@ -25,7 +25,7 @@ ruido = np.random.normal(0,std,n_ruido)
 
 simbolos_con_ruido = simbolos_codificados + ruido
 
-simbolos_decodificados = mod_ASK.decodificador(simbolos_con_ruido)
+simbolos_decodificados = mod_PSK.decodificador(simbolos_con_ruido)
 
 print('pos codificado',simbolos_codificados)
 print('pos recibida',simbolos_con_ruido)
