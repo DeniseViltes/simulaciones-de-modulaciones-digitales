@@ -116,3 +116,35 @@ def fsk(d, M):
     # return gray_map, umbrales
 
 
+# simbolos posibles posicion {d000 0d00 00d0 000d } M = 4 (coordenadas) -- codigo --> {00 01 10 11} M = 4 --> n_b = log2(M)
+# originales (coord) [ 0d00 d000  00d0 ...] -- codigo -->  bitArraySend = [01 00 10 ...]
+
+#analogico con ruido [r1 dr2 r3 r4] --deco--> [0 d 0 0]
+
+# bits -> coord -> ruido -> correlado -> decisor -> bits
+
+'''
+d 0 0 0 0 0 0 0= 0 --> bin 000
+0 d 0 0 0 0 0 0= 1 --> bin 001
+0 0 d 0 0 0 0 0= 2 --> bin 010
+0 0 0 d 0 0 0 0= 3 --> bin 011
+0 0 0 0 d 0 0 0= 4 --> bin 100 
+0 0 0 0 0 d 0 0= 5 --> bin 101
+0 0 0 0 0 0 d 0= 6 --> bin 110
+0 0 0 0 0 0 0 d= 7 --> bin 111
+    0
+    .
+    .
+    M * d
+
+Peb -->  Peb = (M-2)/M Pes
+
+'''
+
+'''
+pos * eye_simb
+[r d_r r r]  d 0 0 0 = [dr d_r*d rd dr] --> buscar indice elem max {coord} --> 
+            0 d 0 0
+            0 0 d 0
+            0 0 0 d
+'''

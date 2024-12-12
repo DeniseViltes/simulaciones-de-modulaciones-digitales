@@ -27,9 +27,11 @@ simbolos_con_ruido = simbolos_codificados + ruido
 
 simbolos_decodificados = mod_PSK.decodificador(simbolos_con_ruido)
 
-print('pos codificado',simbolos_codificados)
-print('pos recibida',simbolos_con_ruido)
-print('pos decod',simbolos_decodificados)
+print(f" Desvio: {std} \n"
+      f" array bits: {bit_array_send}\n"
+      f" simbolos enviados: {simbolos_codificados}\n "
+      f"simbolos recibidos: {simbolos_con_ruido}\n"
+      f"simbolos decodificados: {simbolos_decodificados}")
 
 fig = plt.figure()
 

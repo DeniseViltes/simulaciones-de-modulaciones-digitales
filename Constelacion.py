@@ -93,6 +93,8 @@ class Constelacion:
         cantidadBits = (cantidadBits // k) * k
         if self.tipoConstelacion == TipoConstelacion.QAM or self.tipoConstelacion == TipoConstelacion.PSK:
             simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
+        elif self.tipoConstelacion == TipoConstelacion.FSK:
+            simbolosCodificados = list(np.zeros(int(cantidadBits / k)))
         else:
             simbolosCodificados = np.zeros(int(cantidadBits / k))
         pos_codificados = 0
@@ -119,7 +121,7 @@ class Constelacion:
         posiciones_originales =list(self.codigo.values())
         posiciones_decodificadas = funcion(posiciones_originales,self.umbrales,self.M, posicion_recibida)
 
-        simbolos_decodificados = np.zeros(len(posiciones_decodificadas) * k, dtype=int)
+        simbolos_decodificados = np.zeros(len(posiciones_decodificadas) * k, dtype=int) #pasando de nuevo a bits
         pos_simbol = 0
         for i in posiciones_decodificadas:
             codigo = next((clave for clave, valor in self.codigo.items() if valor == i), None)

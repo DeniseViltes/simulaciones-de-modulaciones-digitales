@@ -44,7 +44,7 @@ def decisor_ASK(posiciones_originales,umbrales,M, posicion_recibida):
 def decisor_QAM(posiciones_originales,umbrales,M, posicion_recibida):
     k_filas = int(np.log2(M))
     simbolos_estimado = np.zeros_like(posicion_recibida, dtype=complex)
-    posiciones = posiciones_originales
+    posiciones = np.sort(posiciones_originales)
     umbrales = np.sort(np.real(umbrales))
     indice = 0
 
@@ -80,5 +80,5 @@ def decisor_FSK(posiciones_originales,umbrales,M, posicion_recibida):
     for pos in posicion_recibida:
         correlacion = np.dot(pos, posiciones)
         detected_symbol = np.argmax(correlacion)
-        simbolos_estimados.append(detected_symbol)
-    return simbolos_estimados
+        indices_estimados.append(detected_symbol)
+    return np.array(indices_estimados)
