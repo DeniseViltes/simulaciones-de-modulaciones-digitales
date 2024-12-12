@@ -74,9 +74,8 @@ def decisor_QAM(posiciones_originales,umbrales,M, posicion_recibida):
     return simbolos_estimado
 
 
-def decisor_FSK(posiciones_originales,umbrales,M, posicion_recibida):
-    posiciones = posiciones_originales
-    simbolos_estimados = np.zeros_like(posicion_recibida)
+def decisor_FSK(posiciones,umbrales,M, posicion_recibida):
+    indices_estimados = []
     for pos in posicion_recibida:
         correlacion = np.dot(pos, posiciones)
         detected_symbol = np.argmax(correlacion)

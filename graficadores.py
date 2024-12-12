@@ -61,29 +61,29 @@ def graficar_ask(umbrales, gray_map):
 
 
 def graficar_fsk(umbrales, gray_map):
-    symbols = list(gray_map.values())
-    codigo = list(gray_map.keys())
-    M = len(symbols)
-    if M != 2 :
-        return None
-    for i in range(M):
-        plt.plot(symbols[i][0],symbols[i][1])
-        plt.text(symbols[i][0],symbols[i][1], f'{codigo[i]}', color='red', fontsize=10, ha='center')
-
-    plt.title(f'Constelación FSK (M={M})')
-    plt.xlabel('I')
-    plt.xlabel('Q')
-    # plt.grid(True)
-    plt.axis('equal')
-    plt.savefig(f'results/{M}-PAM.png')
-    plt.show()
+    # symbols = list(gray_map.values())
+    # codigo = list(gray_map.keys())
+    # M = len(symbols)
+    # if M != 2 :
+    #     return None
+    # for i in range(M):
+    #     plt.plot(symbols[i][0],symbols[i][1])
+    #     plt.text(symbols[i][0],symbols[i][1], f'{codigo[i]}', color='red', fontsize=10, ha='center')
+    # fig = plt.figure()
+    # plt.title(f'Constelación FSK (M={M})')
+    # plt.xlabel('I')
+    # plt.xlabel('Q')
+    # # plt.grid(True)
+    # plt.axis('equal')
+    # plt.savefig(f'results/{M}-PAM.png')
+    # plt.show()
     return
 
 def graficar_qam(umbrales, gray_map):
     symbols = list(gray_map.values())
 
     M = len(symbols)
-
+    fig = plt.figure()
     plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
     plt.axvline(0, color='k', linewidth=0.8, linestyle='--')
     for i in umbrales.real:

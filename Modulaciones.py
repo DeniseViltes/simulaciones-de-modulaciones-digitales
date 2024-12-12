@@ -1,8 +1,5 @@
 from  graficadores import *
 
-
-
-
 def normalizar_constelacion(sim):
 
     sim = np.array(sim, dtype=complex)
@@ -108,12 +105,17 @@ def qam(d, M):
 # Revsar fsk
 def fsk(d, M):
     # devuelvo el umbral vacio, no uso el umbral en el decisor
-    symbols = np.eye(M)
+    # symbols = np.eye(M)
     umbrales = []
+    map = {} # diccionario
+    for i in range(M):
+        simbolo = np.zeros(M)
+        simbolo[i] = d
+        map[i] = simbolo
     #binary_labels = np.arange(M)
     #gray_labels = [binary_to_gray(b) for b in binary_labels]
     #gray_map = dict(zip(gray_labels, symbols))
-    # return gray_map, umbrales
+    return map, umbrales
 
 
 # simbolos posibles posicion {d000 0d00 00d0 000d } M = 4 (coordenadas) -- codigo --> {00 01 10 11} M = 4 --> n_b = log2(M)

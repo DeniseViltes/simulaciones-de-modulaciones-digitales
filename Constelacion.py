@@ -1,6 +1,4 @@
 from enum import Enum
-
-from ASK_no_equiprob import recibidos
 from Modulaciones import *
 from graficadores import *
 from Decisores import *
@@ -34,10 +32,10 @@ def array_binario_a_decimal(arr):
 def gray_to_binary_array(gray_decimal, num_bits):
     # Convertir de Gray a binario estándar
     binary_decimal = gray_decimal
-    shift = gray_decimal >> 1
-    while shift:
-        binary_decimal ^= shift
-        shift >>= 1
+    # shift = gray_decimal >> 1
+    # while shift:
+    #     binary_decimal ^= shift
+    #     shift >>= 1
     binary_array = np.array([int(bit) for bit in format(binary_decimal, f'0{num_bits}b')], dtype=int)
     return binary_array
 
@@ -91,6 +89,7 @@ class Constelacion:
         k = int(np.log2(self.M))
         cantidadBits = len(bits)
         cantidadBits = (cantidadBits // k) * k
+
         if self.tipoConstelacion == TipoConstelacion.QAM or self.tipoConstelacion == TipoConstelacion.PSK:
             simbolosCodificados = np.zeros(int(cantidadBits/k), dtype=complex)
         elif self.tipoConstelacion == TipoConstelacion.FSK:
@@ -103,6 +102,7 @@ class Constelacion:
             simbolo = self.codigo.get(array_binario_a_decimal(s))
             # if simbolo is None:
             #     return None, "Constelacion no válida"
+
             simbolosCodificados[pos_codificados] = simbolo
             pos_codificados+=1
         return simbolosCodificados
@@ -124,9 +124,10 @@ class Constelacion:
         simbolos_decodificados = np.zeros(len(posiciones_decodificadas) * k, dtype=int) #pasando de nuevo a bits
         pos_simbol = 0
         for i in posiciones_decodificadas:
-            codigo = next((clave for clave, valor in self.codigo.items() if valor == i), None)
-            if codigo is None:
-                print(f"Error: No se encontró un código para la posición {i}")
+            if self.tipoConstelacion == TipoConstelacion.FSK:
+                codigo = i
+            else:
+                codigo = next((clave for clave, valor in self.codigo.items() if valor == i), None)
             simbolo_en_array = gray_to_binary_array(codigo, k)
             simbolos_decodificados[pos_simbol:pos_simbol+k]= simbolo_en_array
             pos_simbol+=k
@@ -154,9 +155,10 @@ class Constelacion:
         for i in range(0,cantidad_bits,k):
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
-            exitos += np.array_equal(palabra_recibida,palabra_transmitida)
+            exitos += np.all(palabra_recibida == palabra_transmitida)
         cantidad_palabras = cantidad_bits/k
         return exitos /cantidad_palabras
+
 
 
 
