@@ -6,7 +6,7 @@ from Constelacion import *
 #DEFINICION DE PARAMETROS
 
 d = 2
-M = 4
+M = 16
 k = int(np.log2(M))
 
 #n es la cantidad de veces q lo genera (va a ser cuantos arrays queremos hacer)
