@@ -164,7 +164,6 @@ class Constelacion:
 
     def ruidoConstelacion(self,simbolos_codif,desvio):
         n_ruido = len(simbolos_codif)
-
         if self.tipoConstelacion == TipoConstelacion.FSK:
            ruido = np.transpose(np.random.normal(0, desvio, (self.M, n_ruido)))
         elif self.tipoConstelacion == TipoConstelacion.ASK:
