@@ -5,6 +5,7 @@ from Decisores import *
 from Energia import *
 import numpy as np
 
+#from montecarlo import simbolos_codificados, simbolos_con_ruido
 
 
 class TipoConstelacion(Enum):
@@ -161,10 +162,17 @@ class Constelacion:
 
 
 
+    def ruidoConstelacion(self,simbolos_codif,desvio):
+        n_ruido = len(simbolos_codif)
 
+        if self.tipoConstelacion == TipoConstelacion.FSK:
+           ruido = np.transpose(np.random.normal(0, desvio, (self.M, n_ruido)))
+        elif self.tipoConstelacion == TipoConstelacion.ASK:
+            ruido = np.random.normal(0, desvio, n_ruido)
+        else:
+            ruido = np.random.normal(0, desvio, n_ruido)
+            ruido = ruido + 1j*ruido # si queremos que sea simetrico el ruido. Sino poner np.random.normal(0,desvio,n_ruido)
 
-
-
-
-
+        simbolos_con_ruido = simbolos_codif + ruido
+        return simbolos_con_ruido
 
