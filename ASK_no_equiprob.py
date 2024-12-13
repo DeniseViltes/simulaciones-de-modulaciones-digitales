@@ -35,7 +35,8 @@ for ebn0 in EbN0:
     decisiones = np.where(recibidos >= T, s1, s0)
     errores = (decisiones != enviados).sum()
     Pe_simulada.append(errores / N) #Divido porque promedio la cant de errores para obtener la Pe
-''' 
+
+
 # Graficar resultados
 plt.figure(figsize=(10, 6))
 plt.semilogy(EbN0_dB, Pe_teorica, label="Teórica", linestyle='-', marker='o')
@@ -45,5 +46,4 @@ plt.ylabel(r"Probabilidad de error $P_e$")
 plt.title(r"Probabilidad de error para 2-ASK con $p=1/4$ y $q=3/4$")
 plt.legend()
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-# plt.show()
-'''
+plt.show()

@@ -157,8 +157,7 @@ class Constelacion:
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
             exitos += np.all(palabra_recibida == palabra_transmitida)
-        cantidad_palabras = cantidad_bits/k
-        return exitos /cantidad_palabras
+        return exitos /i
 
 
 
