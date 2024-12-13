@@ -149,15 +149,15 @@ class Constelacion:
         energiaDeBit = energiaDeSimbolo/k
         return energiaDeSimbolo,energiaDeBit
 
-    def tasaDeExito(self,recibido, transmitido):
-        exitos = 0
+    def tasaDeError(self, recibido, transmitido):
+        errores = 0
         cantidad_bits = len(recibido)
         k = int(np.log2(self.M))
         for i in range(0,cantidad_bits,k):
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
-            exitos += np.all(palabra_recibida == palabra_transmitida)
-        return exitos /i
+            errores += np.all(palabra_recibida != palabra_transmitida)
+        return errores /i
 
 
 

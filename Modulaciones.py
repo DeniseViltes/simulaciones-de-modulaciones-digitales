@@ -15,7 +15,7 @@ def ask(d, M):
     n=len(symbols)
     symbols = normalizar_constelacion(symbols)
     symbols = np.real(symbols)
-    d_norm = symbols[0]-symbols[1] # lo harcodeo
+    d_norm = symbols[1]-symbols[0] # lo harcodeo
     umbrales= symbols[1:n-1] + (d_norm / 2)
 
     binary_labels = np.arange(M)  # Etiquetas binarias [0, 1, ..., M-1]

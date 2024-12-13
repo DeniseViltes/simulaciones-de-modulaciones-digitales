@@ -14,11 +14,11 @@ bit_array_send = np.random.binomial(m,p,n_bits)
 
 EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
 SNR = 10**(EbNoDB / 10) # Eb/N0 lineal
-#PSK -> sigma^2 = No/2
+#ASK -> sigma^2 = No/2
 
-tipoConstelacion = 'PSK'
+tipoConstelacion = 'ASK'
 modulacion = Constelacion(d,M,tipoConstelacion)
-#modulacion.graficar() # quiero ver el grafico de PSK
+#modulacion.graficar() # quiero ver el grafico de ASK
 
 Es,Eb = modulacion.calcularEnergias()
 
@@ -38,7 +38,7 @@ for i in std:
     simbolos_con_ruido= modulacion.ruidoConstelacion(simbolos_codificados,i)
     simbolos_decodificados = modulacion.decodificador(simbolos_con_ruido)
 
-    P_acierto = modulacion.tasaDeExito(simbolos_decodificados,bit_array_send)
+    P_acierto = modulacion.tasaDeError(simbolos_decodificados, bit_array_send)
 
     Pe.append( float(1-P_acierto))
 
