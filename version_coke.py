@@ -69,18 +69,23 @@ def plot_fsk(d, M):
 
     if (M==2):
         alpha = np.pi / 4
+        plt.grid(True)
         radio = np.sqrt(d)
         x = [radio, 0]
         y = [0, radio]
+        coordinates = np.array([x,y])
         plt.figure(figsize=(6, 6))
-        plt.scatter(x, y, c='b', label='Símbolos')
-        plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
-        plt.axvline(0, color='k', linewidth=0.8, linestyle='--')
+        plt.scatter(x, y, color ='deeppink', label='Símbolos')
+        plt.axhline(0, color='chocolate', linewidth=0.8, linestyle='--')
+        plt.axvline(0, color='chocolate', linewidth=0.8, linestyle='--')
 
         # zonas de decision
         x1 = np.cos(alpha) * 1.2 * radio
         y1 = np.sin(alpha) * 1.2 * radio
-        plt.plot([x1, 0], [y1, 0], 'k--', lw=1)
+        plt.plot([x1, 0], [y1, 0], '--',color='plum' ,lw=1)
+
+        plt.text(radio,0.1, f'{0}', fontsize=12, color='teal')
+        plt.text(0.1,radio, f'{1}', fontsize=12, color='teal')
 
     elif M == 3:
         coordinates = np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]])
@@ -88,22 +93,23 @@ def plot_fsk(d, M):
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         # Etiquetas de los ejes
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
+        # ax.set_xlabel("cos(f1)")
+        # ax.set_ylabel("cos(f2)")
+        # ax.set_zlabel("cos(f3)")
         # Dibujar los ejes coordenados
-        ax.plot([0, 2], [0, 0], [0, 0], color='b', label="cos(f1)")  # Eje X
-        ax.plot([0, 0], [0, 2], [0, 0], color='b', label="cos(f2)")  # Eje Y
-        ax.plot([0, 0], [0, 0], [0, 2], color='b', label="cos(f3)")  # Eje Z
+        ax.plot([0, 2], [0, 0], [0, 0], color='chocolate', label= "cos(f1)")
+        ax.plot([0, 0], [0, 2], [0, 0], color='chocolate',label="cos(f2)")
+        ax.plot([0, 0], [0, 0], [0, 2], color='chocolate', label= "cos(f3)")
+
         # Dibujar zonas de decision
-        ax.plot([0, 2], [0, 2], [0, 0], color='r', linestyle='--')  # Eje X
-        ax.plot([0, 0], [0, 2], [0, 2], color='r', linestyle='--')  # Eje Y
-        ax.plot([0, 2], [0, 0], [0, 2], color='r', linestyle='--')  # Eje Z
+        ax.plot([0, 2], [0, 2], [0, 0], color='plum', linestyle='--')  # Eje X
+        ax.plot([0, 0], [0, 2], [0, 2], color='plum', linestyle='--')  # Eje Y
+        ax.plot([0, 2], [0, 0], [0, 2], color='plum', linestyle='--')  # Eje Z
         # Graficar los puntos
-        ax.scatter(coordinates[:, 0], coordinates[:, 1], coordinates[:, 2], c='r', marker='o')
+        ax.scatter(coordinates[:, 0], coordinates[:, 1], coordinates[:, 2], color='deeppink', marker='o')
         # Añadir etiquetas a los puntos
         for i, (x, y, z) in enumerate(coordinates):
-            ax.text(x, y, z, f'({x},{y},{z})', fontsize=12)
+            ax.text(x, y, z, f'{x} {y} {z}', fontsize=12, color='teal')
         # Ajustar límites para centrar el origen
         ax.set_xlim([-1, 1])
         ax.set_ylim([-1, 1])
@@ -125,6 +131,7 @@ def plot_fsk(d, M):
     # Mostrar el gráfico
     plt.title(f'Gráfico FSK M={M}')
     plt.legend()
+    plt.savefig(f'results/{M}-FSK.png')
     plt.show()
 
 
@@ -135,5 +142,5 @@ d = 2  # Distancia mínima entre símbolos
 # plot_ask(d, M)
 # plot_qam(d, M)
 # plot_psk(d, M)
-if M <= 3:
-    plot_fsk(d, M)
+# if M <= 3:
+#     plot_fsk(d, M)
