@@ -88,7 +88,7 @@ def graficar_qam(umbrales, gray_map):
     fig = plt.figure()
     plt.axhline(0, color='chocolate', linewidth=0.8, linestyle='--')
     plt.axvline(0, color='chocolate', linewidth=0.8, linestyle='--')
-    for i in umbrales.real:
+    for i in np.real(umbrales):
         plt.axhline(i, color='plum', linestyle='--', lw=1)
         plt.axvline(i, color='plum', linestyle='--', lw=1)
 

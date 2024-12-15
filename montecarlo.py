@@ -11,7 +11,7 @@ k = int(np.log2(M))
 #n es la cantidad de veces q lo genera (va a ser cuantos arrays queremos hacer)
 m = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian m filas de n_bits! Tengo que promediar el resultado de Pe de cada fila.
 p = 0.5
-n_bits = 4*10**6#4*10**3 #van a ser columnas
+n_bits = 4*10**3#4*10**3 #van a ser columnas
 bit_array_send = np.random.binomial(m,p,n_bits)
 # bit_array_send = [1,1,1,0]
 
@@ -19,7 +19,7 @@ EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
 SNR = 10**(EbNoDB / 10) # Eb/N0 lineal en veces
 
 
-tipoConstelacion = 'FSK'
+tipoConstelacion = 'QAM'
 modulacion = Constelacion(d,M,tipoConstelacion)
 modulacion.graficar() # quiero ver el grafico de ASK
 
@@ -29,7 +29,7 @@ Es,Eb = modulacion.calcularEnergias()
 #ASK , FSK-> sigma^2 = No/2
 #SNR = Eb/No o ES/No
 
-sigma_cuad = 1/(2*SNR)
+sigma_cuad = Eb/(2*SNR)
 std = np.sqrt(sigma_cuad)
 
 print(f"Eb: {Eb} \n std: {std}")
@@ -52,8 +52,8 @@ for i in std:
     #P_acierto = modulacion.tasaDeError(simbolos_decodificados, bit_array_send) tasa de error esta contando las diferencias por lo que ya devuelve el Perror, no el de acierto
     p_error = modulacion.tasaDeError(simbolos_decodificados,bit_array_send)
     Pe.append( p_error )
-    print(f"Desvio: {i} Probabilidad de error estimada: {p_error} Teorica: {teorica[j]}\n")
-    j+=1
+    # print(f"Desvio: {i} Probabilidad de error estimada: {p_error} Teorica: {teorica[j]}\n")
+    # j+=1
 guardarCurva(EbNoDB, Pe, f'probasDeError/{M}-{tipoConstelacion}')
 
 
@@ -64,8 +64,8 @@ plt.title(f'Probabilidades de error para {M}-{tipoConstelacion}')
 plt.grid(True,which='both')
 plt.xlabel("SNR [dB]")
 plt.ylabel("Pe")
-plt.semilogx(EbNoDB,Pe,label= 'estimada')
-plt.semilogx(EbNoDB,teorica,label= 'teorica')
+plt.semilogy(EbNoDB,Pe,'o',label= 'estimada')
+plt.semilogy(EbNoDB,teorica,label= 'teorica')
 plt.legend()
 plt.show()
 
