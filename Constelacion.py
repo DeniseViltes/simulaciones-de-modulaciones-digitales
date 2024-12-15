@@ -153,11 +153,14 @@ class Constelacion:
         errores = 0
         cantidad_bits = len(recibido)
         k = int(np.log2(self.M))
+        n_palabras = cantidad_bits/k
         for i in range(0,cantidad_bits,k):
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
-            errores += np.all(palabra_recibida != palabra_transmitida)
-        return errores /i
+            condicion = np.all(palabra_recibida == palabra_transmitida)
+            if condicion == False:
+                errores +=1
+        return errores /n_palabras
 
 
 
@@ -168,9 +171,9 @@ class Constelacion:
         elif self.tipoConstelacion == TipoConstelacion.ASK:
             ruido = np.random.normal(0, desvio, n_ruido)
         else:
-            ruido = np.random.normal(0, desvio, n_ruido)
-            ruido = ruido + 1j*ruido # si queremos que sea simetrico el ruido. Sino poner np.random.normal(0,desvio,n_ruido)
+            ruido_x = np.random.normal(0, desvio, n_ruido) # te da el ruido para cada palabra
+            ruido_y = np.random.normal(0, desvio, n_ruido)
+            ruido = ruido_x + 1j*ruido_y # si queremos que sea simetrico el ruido. Sino poner np.random.normal(0,desvio,n_ruido)
 
         simbolos_con_ruido = simbolos_codif + ruido
         return simbolos_con_ruido
-
