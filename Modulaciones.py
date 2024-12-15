@@ -107,7 +107,7 @@ def fsk(d, M):
     map = {} # diccionario
     for i in range(M):
         simbolo = np.zeros(M)
-        simbolo[i] = d
+        simbolo[i] = d/np.sqrt(2)
         map[i] = simbolo
     #binary_labels = np.arange(M)
     #gray_labels = [binary_to_gray(b) for b in binary_labels]

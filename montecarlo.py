@@ -19,9 +19,9 @@ EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
 SNR = 10**(EbNoDB / 10) # Eb/N0 lineal en veces
 
 
-tipoConstelacion = 'QAM'
+tipoConstelacion = 'ASK'
 modulacion = Constelacion(d,M,tipoConstelacion)
-modulacion.graficar() # quiero ver el grafico de ASK
+# modulacion.graficar() # quiero ver el grafico de ASK
 
 Es,Eb = modulacion.calcularEnergias()
 
@@ -67,6 +67,11 @@ plt.ylabel("Pe")
 plt.semilogy(EbNoDB,Pe,'o',label= 'estimada')
 plt.semilogy(EbNoDB,teorica,label= 'teorica')
 plt.legend()
+
+
+fig=modulacion.superponerSimbolos(simbolos_con_ruido)
+
+
 plt.show()
 
 

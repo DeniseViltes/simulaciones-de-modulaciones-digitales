@@ -12,7 +12,7 @@ def graficar_psk(ang_umbrales, psk_gray_map):
 
     # Graficar símbolos PSK
     for gray,sym in psk_gray_map.items():
-        plt.plot(sym.real, sym.imag, 'o',color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
+        plt.plot(sym.real, sym.imag, 'o',markersize=10,color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
         plt.text(sym.real * 1.1, sym.imag * 1.1, f'{format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')
 
@@ -48,7 +48,7 @@ def graficar_ask(umbrales, gray_map):
         plt.axvline(pos, color='plum', linewidth=0.8, linestyle='--')
 
     for gray,sym in gray_map.items():
-        plt.plot(sym.real, sym.imag, 'o',color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
+        plt.plot(sym.real, sym.imag, 'o',markersize=10,color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
         plt.text(sym.real * 1, sym.imag +0.01, f'{format(gray, f"0{int(np.log2(len(gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')
     plt.title(f'Constelación ASK (M={M})')
@@ -95,7 +95,7 @@ def graficar_qam(umbrales, gray_map):
 
     for gray, sym in gray_map.items():
         sym = complex(sym)
-        plt.plot(sym.real, sym.imag, 'o', color='deeppink',
+        plt.plot(sym.real, sym.imag, 'o',markersize=10, color='deeppink',
                  label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
         plt.text(sym.real * 1, sym.imag +0.05, f'{format(gray, f"0{int(np.log2(len(gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')

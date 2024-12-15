@@ -84,7 +84,7 @@ class Constelacion:
         }
         tipo = self.tipoConstelacion
         funcion = graficadores[tipo]
-        funcion(self.umbrales, self.codigo)
+        return funcion(self.umbrales, self.codigo)
 
     def codificarBits(self, bits):
         k = int(np.log2(self.M))
@@ -96,7 +96,7 @@ class Constelacion:
         elif self.tipoConstelacion == TipoConstelacion.FSK:
             simbolosCodificados = list(np.zeros(int(cantidadBits / k)))
         else:
-            simbolosCodificados = np.zeros(int(cantidadBits / k))
+            simbolosCodificados = np.zeros(int(cantidadBits / k), dtype=int)
         pos_codificados = 0
         for i in range(0,cantidadBits,k): #estaba como cantidadBits-k y por eso no entraba a la ultima palabra
             s= bits[i:i+k]
@@ -179,3 +179,9 @@ class Constelacion:
 
         simbolos_con_ruido = simbolos_codif + ruido
         return simbolos_con_ruido
+
+    def superponerSimbolos(self, simbolos_con_ruido):
+        fig = self.graficar()
+        for sym in simbolos_con_ruido:
+            plt.plot(sym.real, sym.imag, '.',markersize=5,markerfacecolor='none', color='yellowgreen', alpha=0.5)
+        return fig
