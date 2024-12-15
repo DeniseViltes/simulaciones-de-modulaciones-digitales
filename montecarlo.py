@@ -4,7 +4,7 @@ from Constelacion import *
 from almacenador import *
 from Probabilidades import *
 d = 2
-M = 16
+M = 2
 
 k = int(np.log2(M))
 
@@ -51,9 +51,9 @@ for i in std:
 
     #P_acierto = modulacion.tasaDeError(simbolos_decodificados, bit_array_send) tasa de error esta contando las diferencias por lo que ya devuelve el Perror, no el de acierto
     p_error = modulacion.tasaDeError(simbolos_decodificados,bit_array_send)
-    Pe.append( p_error )
+    Pe.append(p_error )
     # print(f"Desvio: {i} Probabilidad de error estimada: {p_error} Teorica: {teorica[j]}\n")
-    # j+=1
+    j+=1
 guardarCurva(EbNoDB, Pe, f'probasDeError/{M}-{tipoConstelacion}')
 
 

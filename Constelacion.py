@@ -4,8 +4,8 @@ from graficadores import *
 from Decisores import *
 from Energia import *
 import numpy as np
+from decimal import Decimal, getcontext
 
-#from montecarlo import simbolos_codificados, simbolos_con_ruido
 
 
 class TipoConstelacion(Enum):
@@ -150,17 +150,19 @@ class Constelacion:
         return energiaDeSimbolo,energiaDeBit
 
     def tasaDeError(self, recibido, transmitido):
-        errores = 0
+        getcontext().prec = 50  # Establecer alta precisión
+        errores = Decimal(0)
         cantidad_bits = len(recibido)
         k = int(np.log2(self.M))
-        n_palabras = cantidad_bits/k
+        n_palabras = cantidad_bits/Decimal(k)
         for i in range(0,cantidad_bits,k):
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
             condicion = np.all(palabra_recibida == palabra_transmitida)
             if condicion == False:
                 errores +=1
-        return errores /n_palabras
+        tasa_error = errores / n_palabras
+        return float(tasa_error)
 
 
 

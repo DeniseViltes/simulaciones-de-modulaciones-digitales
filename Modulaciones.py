@@ -48,10 +48,9 @@ def qam(d, M):
     if M == 2:
         # Caso especial para 2-QAM
         symbols = np.array([-d/2 , d/2]) # = [a,b]
-        umbral = [0]
-        gray_labels = {0 , 1}
-        gray_map = dict(zip(gray_labels, symbols))
-        return gray_map,umbral
+        umbrales = np.array([0])
+        gray_map = {binary_to_gray(0): symbols[0], binary_to_gray(1): symbols[1]}
+        return gray_map, umbrales
     else:
         # Constelación cuadrada para M-QAM
         size = int(np.sqrt(M))

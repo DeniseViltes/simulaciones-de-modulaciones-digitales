@@ -48,25 +48,35 @@ def decisor_QAM(posiciones_originales,umbrales,M, posicion_recibida):
 
     for pos in posicion_recibida:
 
-        x = np.real(pos)
-        y = np.imag(pos)
+        if M == 2:
+            # Caso especial para M=2 (unidimensional)
+            x = np.real(pos)  # Evaluamos solo la parte real
+            indice_x = 0
+            for i, umbral in enumerate(umbrales):
+                if x <= umbral:
+                    break
+                indice_x = i + 1
+            simbolos_estimado[indice] = posiciones[indice_x]
+        else:
+            x = np.real(pos)
+            y = np.imag(pos)
 
-        # forma 1
+            # forma 1
 
-        indice_x = 0
-        indice_y = 0
+            indice_x = 0
+            indice_y = 0
 
-        for i in umbrales:
-            if x <= i:
-                break
-            else:
-                indice_x += 1
-        for j in umbrales:
-            if y <= j:
-                break
-            else:
-                indice_y += 1
-        simbolos_estimado[indice] = posiciones[indice_x * k_filas + indice_y]
+            for i in umbrales:
+                if x <= i:
+                    break
+                else:
+                    indice_x += 1
+            for j in umbrales:
+                if y <= j:
+                    break
+                else:
+                    indice_y += 1
+            simbolos_estimado[indice] = posiciones[indice_x * k_filas + indice_y]
         indice += 1
 
     return simbolos_estimado
