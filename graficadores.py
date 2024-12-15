@@ -3,7 +3,7 @@ import numpy as np
 
 def graficar_psk(ang_umbrales, psk_gray_map):
     symbols = list(psk_gray_map.values())
-    plt.figure(figsize=(8, 8))
+    fig = plt.figure(figsize=(8, 8))
     ax = plt.gca()
     M = len(symbols)
     # Dibujar círculo unitario
@@ -36,12 +36,12 @@ def graficar_psk(ang_umbrales, psk_gray_map):
     plt.grid(color='lightgray', linestyle='--', linewidth=0.5)
     plt.savefig(f'results/{M}-PSK.png')
     # plt.legend(loc='upper right', fontsize=8)
-    plt.show()
+    return fig
 
 def graficar_ask(umbrales, gray_map):
     symbols = list(gray_map.values())
     M = len(symbols)
-    plt.figure(figsize=(8, 4))
+    fig = plt.figure(figsize=(8, 4))
     plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
 
     for pos in umbrales:
@@ -59,7 +59,7 @@ def graficar_ask(umbrales, gray_map):
     plt.grid(False)
     plt.tight_layout()
     plt.savefig(f'results/{M}-ASK.png')
-    plt.show()
+    return fig
 
 
 def graficar_fsk(umbrales, gray_map):
@@ -109,4 +109,4 @@ def graficar_qam(umbrales, gray_map):
     plt.ylim([-1.3, 1.3])
     plt.xlim([-1.3, 1.3])
     plt.savefig(f'results/{M}-QAM.png')
-    plt.show()
+    return fig
