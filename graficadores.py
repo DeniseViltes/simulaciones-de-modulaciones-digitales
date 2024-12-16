@@ -3,16 +3,16 @@ import numpy as np
 
 def graficar_psk(ang_umbrales, psk_gray_map):
     symbols = list(psk_gray_map.values())
-    fig = plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(8, 8))
     ax = plt.gca()
     M = len(symbols)
     # Dibujar círculo unitario
-    circle = plt.Circle((0, 0), 1, color='lightgray', fill=False, linestyle='--', linewidth=1)
+    circle = plt.Circle((0, 0), 5, color='lightgray', fill=False, linestyle='--', linewidth=1)
     ax.add_artist(circle)
 
     # Graficar símbolos PSK
     for gray,sym in psk_gray_map.items():
-        plt.plot(sym.real, sym.imag, 'o',markersize=10,color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
+        plt.plot(sym.real, sym.imag, 'o',color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}')
         plt.text(sym.real * 1.1, sym.imag * 1.1, f'{format(gray, f"0{int(np.log2(len(psk_gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')
 
@@ -36,19 +36,19 @@ def graficar_psk(ang_umbrales, psk_gray_map):
     plt.grid(color='lightgray', linestyle='--', linewidth=0.5)
     plt.savefig(f'results/{M}-PSK.png')
     # plt.legend(loc='upper right', fontsize=8)
-    return fig
+    plt.show()
 
 def graficar_ask(umbrales, gray_map):
     symbols = list(gray_map.values())
     M = len(symbols)
-    fig = plt.figure(figsize=(8, 4))
+    plt.figure(figsize=(8, 4))
     plt.axhline(0, color='k', linewidth=0.8, linestyle='--')
 
     for pos in umbrales:
         plt.axvline(pos, color='plum', linewidth=0.8, linestyle='--')
 
     for gray,sym in gray_map.items():
-        plt.plot(sym.real, sym.imag, 'o',markersize=10,color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
+        plt.plot(sym.real, sym.imag, 'o',color = 'deeppink', label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
         plt.text(sym.real * 1, sym.imag +0.01, f'{format(gray, f"0{int(np.log2(len(gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')
     plt.title(f'Constelación ASK (M={M})')
@@ -59,7 +59,7 @@ def graficar_ask(umbrales, gray_map):
     plt.grid(False)
     plt.tight_layout()
     plt.savefig(f'results/{M}-ASK.png')
-    return fig
+    plt.show()
 
 
 def graficar_fsk(umbrales, gray_map):
@@ -95,7 +95,7 @@ def graficar_qam(umbrales, gray_map):
 
     for gray, sym in gray_map.items():
         sym = complex(sym)
-        plt.plot(sym.real, sym.imag, 'o',markersize=10, color='deeppink',
+        plt.plot(sym.real, sym.imag, 'o', color='deeppink',
                  label=f'Gray: {format(gray, f"0{int(np.log2(len(gray_map)))}b")}')
         plt.text(sym.real * 1, sym.imag +0.05, f'{format(gray, f"0{int(np.log2(len(gray_map)))}b")}',
                  color='teal', fontsize=10, ha='center')
@@ -109,4 +109,4 @@ def graficar_qam(umbrales, gray_map):
     plt.ylim([-1.3, 1.3])
     plt.xlim([-1.3, 1.3])
     plt.savefig(f'results/{M}-QAM.png')
-    return fig
+    plt.show()

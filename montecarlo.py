@@ -13,13 +13,13 @@ m = 1 #cuantos arrays diferentes queremos, estos luego los promedio. Serian m fi
 p = 0.5
 n_bits = 4*10**3#4*10**3 #van a ser columnas
 bit_array_send = np.random.binomial(m,p,n_bits)
-# bit_array_send = [1,1,1,0]
+
 
 EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
 SNR = 10**(EbNoDB / 10) # Eb/N0 lineal en veces
 
 
-tipoConstelacion = 'ASK'
+tipoConstelacion = 'PSK'
 modulacion = Constelacion(d,M,tipoConstelacion)
 # modulacion.graficar() # quiero ver el grafico de ASK
 
@@ -67,9 +67,6 @@ plt.ylabel("Pe")
 plt.semilogy(EbNoDB,Pe,'o',label= 'estimada')
 plt.semilogy(EbNoDB,teorica,label= 'teorica')
 plt.legend()
-
-
-fig=modulacion.superponerSimbolos(simbolos_con_ruido)
 
 
 plt.show()

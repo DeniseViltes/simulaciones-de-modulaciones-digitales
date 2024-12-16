@@ -8,35 +8,35 @@ def procesarPuntos2VA(nombreArchivo):
     return y
 
 #Usar CTRL + R para cambiar la modulacion en todos las variables del archivo
-tipoConstelacion='FSK'
+tipoConstelacion='PSK'
 
 
 EbNoDB = np.arange(0, 11, 1)  # Eb/N0 en dB
 SNR = 10**(EbNoDB / 10)
 
 
-Pe2_FSK = procesarPuntos2VA(f'probasDeError/2-{tipoConstelacion}')
-Pe4_FSK= procesarPuntos2VA(f'probasDeError/4-{tipoConstelacion}')
-Pe8_FSK = procesarPuntos2VA(f'probasDeError/8-{tipoConstelacion}')
-Pe16_FSK = procesarPuntos2VA(f'probasDeError/16-{tipoConstelacion}')
+Pe2_PSK = procesarPuntos2VA(f'probasDeError/2-{tipoConstelacion}')
+Pe4_PSK= procesarPuntos2VA(f'probasDeError/4-{tipoConstelacion}')
+Pe8_PSK = procesarPuntos2VA(f'probasDeError/8-{tipoConstelacion}')
+Pe16_PSK = procesarPuntos2VA(f'probasDeError/16-{tipoConstelacion}')
 
 
-teorica_2_FSK = pes_teorica(tipoConstelacion, 2, SNR)
-teorica_4_FSK = pes_teorica(tipoConstelacion, 4, SNR)
-teorica_8_FSK = pes_teorica(tipoConstelacion, 8, SNR)
-teorica_16_FSK = pes_teorica(tipoConstelacion, 16, SNR)
+teorica_2_PSK = pes_teorica(tipoConstelacion, 2, SNR)
+teorica_4_PSK = pes_teorica(tipoConstelacion, 4, SNR)
+teorica_8_PSK = pes_teorica(tipoConstelacion, 8, SNR)
+teorica_16_PSK = pes_teorica(tipoConstelacion, 16, SNR)
 
 
 fig=plt.figure()
 plt.grid(True)
-plt.semilogy(EbNoDB, Pe2_FSK,'o', label=f'2-{tipoConstelacion} simulada', color='hotpink')
-plt.semilogy(EbNoDB, teorica_2_FSK, label=f'2-{tipoConstelacion} teorica', color='hotpink')
-plt.semilogy(EbNoDB, Pe4_FSK,'o', label=f'4-{tipoConstelacion} simulada', color='cornflowerblue')
-plt.semilogy(EbNoDB, teorica_4_FSK, label=f'4-{tipoConstelacion} teorica', color='cornflowerblue')
-plt.semilogy(EbNoDB, Pe8_FSK,'o', label=f'8-{tipoConstelacion} simulada', color='peru')
-plt.semilogy(EbNoDB, teorica_8_FSK, label=f'8-{tipoConstelacion} teorica', color='peru')
-plt.semilogy(EbNoDB, Pe16_FSK,'o', label=f'16-{tipoConstelacion} simulada', color='orchid')
-plt.semilogy(EbNoDB, teorica_16_FSK, label=f'16-{tipoConstelacion} teorica', color='orchid')
+plt.semilogy(EbNoDB, Pe2_PSK,'o', label=f'2-{tipoConstelacion} simulada', color='hotpink')
+plt.semilogy(EbNoDB, teorica_2_PSK, label=f'2-{tipoConstelacion} teorica', color='hotpink')
+plt.semilogy(EbNoDB, Pe4_PSK,'o', label=f'4-{tipoConstelacion} simulada', color='cornflowerblue')
+plt.semilogy(EbNoDB, teorica_4_PSK, label=f'4-{tipoConstelacion} teorica', color='cornflowerblue')
+plt.semilogy(EbNoDB, Pe8_PSK,'o', label=f'8-{tipoConstelacion} simulada', color='peru')
+plt.semilogy(EbNoDB, teorica_8_PSK, label=f'8-{tipoConstelacion} teorica', color='peru')
+plt.semilogy(EbNoDB, Pe16_PSK,'o', label=f'16-{tipoConstelacion} simulada', color='orchid')
+plt.semilogy(EbNoDB, teorica_16_PSK, label=f'16-{tipoConstelacion} teorica', color='orchid')
 
 plt.title('Probabilidad de error de simbolo')
 plt.ylabel('Probabilidad de error')
@@ -46,30 +46,53 @@ plt.legend()
 
 fig2 = plt.figure()
 
-Pb2_FSK = peb_psk(Pe2_FSK,2)
-Pb4_FSK = peb_psk(Pe4_FSK,4)
-Pb8_FSK = peb_psk(Pe8_FSK,8)
-Pb16_FSK = peb_psk(Pe16_FSK,16)
+Pb2_PSK = peb_psk(Pe2_PSK,2)
+Pb4_PSK = peb_psk(Pe4_PSK,4)
+Pb8_PSK = peb_psk(Pe8_PSK,8)
+Pb16_PSK = peb_psk(Pe16_PSK,16)
 
 
-Pb_teorica_2_FSK = peb_psk(teorica_2_FSK,2)
-Pb_teorica_4_FSK = peb_psk(teorica_4_FSK,4)
-Pb_teorica_8_FSK = peb_psk(teorica_8_FSK,8)
-Pb_teorica_16_FSK = peb_psk(teorica_16_FSK,16)
+Pb_teorica_2_PSK = peb_psk(teorica_2_PSK,2)
+Pb_teorica_4_PSK = peb_psk(teorica_4_PSK,4)
+Pb_teorica_8_PSK = peb_psk(teorica_8_PSK,8)
+Pb_teorica_16_PSK = peb_psk(teorica_16_PSK,16)
 
 plt.grid(True)
-plt.semilogy(EbNoDB, Pb2_FSK,'o', label=f'2-{tipoConstelacion} simulada', color='hotpink')
-plt.semilogy(EbNoDB, Pb_teorica_2_FSK, label=f'2-{tipoConstelacion} teorica', color='hotpink')
-plt.semilogy(EbNoDB, Pb4_FSK,'o', label=f'4-{tipoConstelacion} simulada', color='cornflowerblue')
-plt.semilogy(EbNoDB, Pb_teorica_4_FSK, label=f'4-{tipoConstelacion} teorica', color='cornflowerblue')
-plt.semilogy(EbNoDB, Pb8_FSK,'o', label=f'8-{tipoConstelacion} simulada', color='peru')
-plt.semilogy(EbNoDB, Pb_teorica_8_FSK, label=f'8-{tipoConstelacion} teorica', color='peru')
-plt.semilogy(EbNoDB, Pb16_FSK,'o', label=f'16-{tipoConstelacion} simulada', color='orchid')
-plt.semilogy(EbNoDB, Pb_teorica_16_FSK, label=f'16-{tipoConstelacion} teorica', color='orchid')
+plt.semilogy(EbNoDB, Pb2_PSK,'o', label=f'2-{tipoConstelacion} simulada', color='hotpink')
+plt.semilogy(EbNoDB, Pb_teorica_2_PSK, label=f'2-{tipoConstelacion} teorica', color='hotpink')
+plt.semilogy(EbNoDB, Pb4_PSK,'o', label=f'4-{tipoConstelacion} simulada', color='cornflowerblue')
+plt.semilogy(EbNoDB, Pb_teorica_4_PSK, label=f'4-{tipoConstelacion} teorica', color='cornflowerblue')
+plt.semilogy(EbNoDB, Pb8_PSK,'o', label=f'8-{tipoConstelacion} simulada', color='peru')
+plt.semilogy(EbNoDB, Pb_teorica_8_PSK, label=f'8-{tipoConstelacion} teorica', color='peru')
+plt.semilogy(EbNoDB, Pb16_PSK,'o', label=f'16-{tipoConstelacion} simulada', color='orchid')
+plt.semilogy(EbNoDB, Pb_teorica_16_PSK, label=f'16-{tipoConstelacion} teorica', color='orchid')
 
 plt.ylabel('Probabilidad de error')
 plt.xlabel('EbNo')
 plt.title('Probabilidad de error de bit')
 plt.legend()
 
+fig2= plt.figure()
+plt.grid(True)
+pes_teorica(tipoConstelacion, 2, SNR)
+Pe16_PSK = pes_teorica('PSK', 16, SNR)
+Pe16_ASK=  pes_teorica('ASK', 16, SNR)
+Pe16_FSK =  pes_teorica('FSK', 16, SNR)
+Pe16_QAM = pes_teorica('QAM', 16, SNR)
+
+
+Pe16_PSK = peb_psk(Pe16_PSK,16)
+Pe16_ASK = peb_ask(Pe16_ASK,16)
+Pe16_FSK = peb_fsk(Pe16_FSK,16)
+Pe16_QAM = peb_qam(Pe16_QAM,16)
+
+plt.semilogy(EbNoDB, Pe16_PSK, label=f'16-PSK simulada', color='hotpink')
+plt.semilogy(EbNoDB, Pe16_FSK, label=f'16-FSK simulada', color='cornflowerblue')
+plt.semilogy(EbNoDB, Pe16_ASK, label=f'16-ASK simulada', color='peru')
+plt.semilogy(EbNoDB, Pe16_QAM, label=f'16-QAM simulada', color='orchid')
+plt.title(f'Probabilidad de error de bit para $M=16$ para cada modulación')
+plt.ylabel('Probabilidad de error')
+plt.xlabel('EbNo')
+
+plt.legend()
 plt.show()

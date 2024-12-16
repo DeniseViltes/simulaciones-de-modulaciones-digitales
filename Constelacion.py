@@ -159,7 +159,7 @@ class Constelacion:
             palabra_recibida = recibido[i:i+k]
             palabra_transmitida = transmitido[i:i+k]
             condicion = np.all(palabra_recibida == palabra_transmitida)
-            if condicion == False:
+            if not condicion:
                 errores +=1
         tasa_error = errores / n_palabras
         return float(tasa_error)
@@ -179,9 +179,3 @@ class Constelacion:
 
         simbolos_con_ruido = simbolos_codif + ruido
         return simbolos_con_ruido
-
-    def superponerSimbolos(self, simbolos_con_ruido):
-        fig = self.graficar()
-        for sym in simbolos_con_ruido:
-            plt.plot(sym.real, sym.imag, '.',markersize=5,markerfacecolor='none', color='yellowgreen', alpha=0.5)
-        return fig
